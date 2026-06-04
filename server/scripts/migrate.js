@@ -5,13 +5,10 @@
  *   npm run migrate:status       # list migrations
  *   npm run migrate:rollback     # rollback last migration
  */
-import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { loadServerEnv } from '../src/config/loadEnv.js';
 import { migrate, migrationStatus, rollback } from '../src/lib/migrator.js';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.join(__dirname, '..', '.env') });
+loadServerEnv();
 
 const cmd = process.argv[2] || 'migrate';
 const steps = Number(process.argv.find((a) => a.startsWith('--step='))?.split('=')[1] || 1);

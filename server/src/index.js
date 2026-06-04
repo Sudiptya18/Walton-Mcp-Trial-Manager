@@ -7,6 +7,7 @@ import { csrfProtection } from './middleware/csrfProtection.js';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { corsOptions } from './config/cors.js';
 
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
@@ -20,25 +21,13 @@ dotenv.config();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 5000;
-const clientUrl = process.env.CLIENT_URL || 'http://waltonmcp.localhost';
-const extraOrigins = (process.env.CLIENT_URLS || '')
-  .split(',')
-  .map((s) => s.trim())
-  .filter(Boolean);
-const allowedOrigins = [clientUrl, ...extraOrigins];
 
 app.set('trust proxy', 1);
 
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
-app.use(cors({
-  origin(origin, cb) {
-    if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
-    return cb(null, false);
-  },
-  credentials: true,
-}));
+app.use(cors(corsOptions()));
 app.use(express.json({ limit: '2mb' }));
 app.use(cookieParser());
 

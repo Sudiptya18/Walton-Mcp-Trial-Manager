@@ -7,11 +7,11 @@
 import fs from 'fs';
 import path from 'path';
 import mysql from 'mysql2/promise';
-import dotenv from 'dotenv';
+import { loadServerEnv } from '../src/config/loadEnv.js';
 import { fileURLToPath } from 'url';
 
+loadServerEnv();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
 const defaultDir =
   'C:\\Users\\Sudiptya Chanda\\OneDrive - Artisan Business Network Bangladesh\\Desktop\\Trial Files WALTON MCP';
