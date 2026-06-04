@@ -1,0 +1,42 @@
+:root {
+  --walton-navy: #1a365d;
+  --walton-blue: #2b6cb0;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: #f0f4f8;
+  min-height: 100vh;
+}
+
+.app-navbar {
+  background: linear-gradient(90deg, var(--walton-navy), var(--walton-blue));
+}
+
+.legacy-frame {
+  width: 100%;
+  min-height: calc(100vh - 64px);
+  border: none;
+  background: #fff;
+}
+
+.card-stat {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+}
+
+.login-card {
+  max-width: 420px;
+  width: 100%;
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}

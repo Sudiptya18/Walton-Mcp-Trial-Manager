@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trial Sheet - Metal Casting Plant</title>
+    <style>
+        @media screen {
+            body {
+                font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                font-size: 14px; color: #2c3e50; margin: 0; padding: 0;
+                background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+                min-height: 100vh;
+            }
+            .tab-nav-bar {
+                background: linear-gradient(90deg, #1a365d 0%, #2b6cb0 100%);
+                display: flex; align-items: center; padding: 0 20px;
+                position: sticky; top: 0; z-index: 300;
+                box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+            }
+            .tab-nav-logo { color: rgba(255,255,255,0.55); font-size: 12px; font-weight:600; margin-right:16px; letter-spacing:1px; padding: 16px 0; }
+            .tab-nav-btn {
+                padding: 15px 22px; background: transparent;
+                color: rgba(255,255,255,0.65); border: none; border-bottom: 3px solid transparent;
+                font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+                letter-spacing: 0.3px; display: flex; align-items: center; gap: 6px;
+            }
+            .tab-nav-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+            .tab-nav-btn.active { color: #fff; border-bottom-color: #63b3ed; background: rgba(255,255,255,0.12); }
+            .rc-badge {
+                display: inline-flex; align-items: center; justify-content: center;
+                background: #63b3ed; color: #1a365d; border-radius: 10px;
+                min-width: 20px; height: 20px; font-size: 11px; font-weight: bold;
+                padding: 0 5px; margin-left: 4px;
+            }
+            .tab-panel { display: none; }
+            .tab-panel.active { display: block; }
+            .form-body-wrap { padding: 30px 20px 0; }
+            .container {
+                max-width: 900px; margin: auto; background: #ffffff;
+                padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            }
+            .header { text-align: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #f0f2f5; }
+            .header h1 { margin: 0; font-size: 24px; color: #1a365d; letter-spacing: 1px; }
+            .header h2 { margin: 8px 0; font-size: 16px; color: #4a5568; }
+            .header h3 { margin: 10px 0; font-size: 18px; color: #2b6cb0; display: inline-block; padding: 4px 15px; background: #ebf8ff; border-radius: 20px; text-decoration: none;}
+            .table-responsive {
+                width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
+                margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            }
+            .info-table, .data-table {
+                width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0;
+                border: 1px solid #e2e8f0; min-width: 750px;
+            }
+            th, td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; word-wrap: break-word; vertical-align: middle;}
+            th:last-child, td:last-child { border-right: none; }
+            tr:last-child td { border-bottom: none; }
+            th, .label, .sub-header { background-color: #f7fafc; font-weight: 600; color: #2d3748; text-align: left; }
+            .data-table th { text-align: center; background-color: #edf2f7; color: #1a365d; vertical-align: middle;}
+            .clean-input, .clean-select, .clean-textarea {
+                width: 100%; box-sizing: border-box; border: 1px solid #cbd5e0; background: #fff;
+                font-family: inherit; font-size: 14px; padding: 6px 10px; border-radius: 6px;
+                transition: border-color 0.2s ease, box-shadow 0.2s ease; color: #2d3748; outline: none;
+            }
+            .clean-input:focus, .clean-select:focus, .clean-textarea:focus { border-color: #3182ce; box-shadow: 0 0 0 3px rgba(49,130,206,0.15); }
+            .clean-select:disabled { background-color: #edf2f7; color: #4a5568; cursor: not-allowed; }
+            .auto-expand { resize: none; overflow: hidden; min-height: 34px; line-height: 1.4; display: block;}
+            .action-btn-row {
+                display: flex; align-items: center; justify-content: center;
+                gap: 12px; flex-wrap: wrap;
+                margin: 24px auto 30px; max-width: 900px; padding: 0 20px;
+            }
+            .print-btn {
+                display: flex; align-items: center; justify-content: center; width: 240px;
+                margin: 0; padding: 14px; background-color: #2b6cb0; color: #fff;
+                font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; border: none;
+                transition: background 0.3s, transform 0.1s; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            .print-btn:hover { background-color: #2c5282; transform: translateY(-2px); }
+            .save-btn {
+                display: flex; align-items: center; justify-content: center;
+                padding: 14px 18px; background-color: #276749; color: #fff;
+                font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; border: none;
+                transition: background 0.3s, transform 0.1s; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            .save-btn:hover { background-color: #22543d; transform: translateY(-2px); }
+            .load-btn {
+                display: flex; align-items: center; justify-content: center;
+                padding: 14px 18px; background-color: #975a16; color: #fff;
+                font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; border: none;
+                transition: background 0.3s, transform 0.1s; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            .load-btn:hover { background-color: #7b4510; transform: translateY(-2px); }
+            .setup-btn {
+                display: flex; align-items: center; justify-content: center;
+                padding: 14px 16px; background-color: #553c9a; color: #fff;
+                font-size: 13px; font-weight: bold; border-radius: 8px; cursor: pointer; border: none;
+                transition: background 0.3s, transform 0.1s; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                white-space: nowrap;
+            }
+            .setup-btn:hover { background-color: #44337a; transform: translateY(-2px); }
+            #manualInstructionsWrapper { background: #ebf8ff; padding: 8px; border-radius: 6px; border: 1px solid #bee3f8; }
+            .print-only, .print-only-inline, .print-only-div { display: none !important; }
+            .page2-section { margin-top: 40px; border-top: 3px dashed #a0aec0; padding-top: 20px; }
+            .page2-section-note { text-align: center; color: #718096; font-size: 12px; font-style: italic; margin-bottom: 15px; padding: 8px; background: #f7fafc; border-radius: 6px; }
+            .page2-header-bar { text-align: center; font-size: 20px; font-weight: bold; color: #1a365d; padding: 12px; background: #ebf8ff; border-radius: 8px; margin-bottom: 20px; letter-spacing: 1px; }
+            .section-label-th { background-color: #edf2f7 !important; color: #1a365d !important; font-weight: bold; font-size: 14px; text-align: left; padding-left: 15px !important; }
+            .check-table { width: 100%; border-collapse: separate; border-spacing: 0; border: 1px solid #e2e8f0; margin-bottom: 16px; min-width: 750px; }
+            .check-table td, .check-table th { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; vertical-align: middle; word-wrap: break-word; }
+            .check-table th:last-child, .check-table td:last-child { border-right: none; }
+            .check-table tr:last-child td { border-bottom: none; }
+            .check-col { width: 40px; text-align: center; }
+            input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: #2b6cb0; }
+            .conditional-input {
+                display: none; margin-left: 8px; box-sizing: border-box;
+                border: 1px solid #cbd5e0; border-radius: 6px; padding: 4px 8px;
+                font-size: 13px; color: #2d3748; font-family: inherit; width: calc(100% - 30px); background: #fff;
+            }
+            .conditional-input:focus { border-color: #3182ce; outline: none; }
+            .chem-textarea, .additional-textarea {
+                width: 100%; box-sizing: border-box; border: 1px solid #cbd5e0;
+                background: #fff; font-family: inherit; font-size: 14px; padding: 8px 10px;
+                border-radius: 6px; min-height: 70px; resize: vertical; color: #2d3748; outline: none;
+            }
+            .chem-textarea:focus, .additional-textarea:focus { border-color: #3182ce; box-shadow: 0 0 0 3px rgba(49,130,206,0.15); }
+
+            /* ── RECENT FILES TAB ── */
+            .recent-wrapper { max-width: 900px; margin: 0 auto; padding: 24px 20px 40px; }
+            .search-section {
+                background: #fff; padding: 18px 20px; border-radius: 12px;
+                box-shadow: 0 3px 12px rgba(0,0,0,0.08); margin-bottom: 18px;
+            }
+            .search-section-title { font-size: 14px; font-weight: 700; color: #1a365d; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+            .search-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+            .search-row input[type="text"], .search-row input[type="date"], .search-row select {
+                flex: 1; min-width: 150px; padding: 9px 13px;
+                border: 1px solid #cbd5e0; border-radius: 8px; font-size: 13px;
+                color: #2d3748; background: #f7fafc; outline: none; font-family: inherit;
+            }
+            .search-row input:focus, .search-row select:focus { border-color: #3182ce; background: #fff; box-shadow: 0 0 0 3px rgba(49,130,206,0.12); }
+            .search-clear-btn {
+                padding: 9px 16px; background: #e53e3e; color: #fff; border: none;
+                border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: bold;
+                transition: background 0.2s; white-space: nowrap;
+            }
+            .search-clear-btn:hover { background: #c53030; }
+            .recent-hint {
+                text-align: center; font-size: 12px; color: #718096; padding: 8px;
+                background: #f7fafc; border-radius: 8px; margin-bottom: 16px;
+                border: 1px dashed #e2e8f0;
+            }
+            .files-grid {
+                display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px;
+            }
+            .file-card {
+                background: #fff; border-radius: 12px; padding: 16px;
+                border: 2px solid #e2e8f0; cursor: pointer;
+                transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+                user-select: none; position: relative;
+            }
+            .file-card:hover { border-color: #3182ce; box-shadow: 0 6px 18px rgba(49,130,206,0.18); transform: translateY(-2px); }
+            .file-card.selected { border-color: #2b6cb0; background: #ebf8ff; }
+            .fc-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+            .fc-product { font-size: 15px; font-weight: 700; color: #1a365d; line-height: 1.3; flex: 1; }
+            .fc-type { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; white-space: nowrap; margin-top: 2px; }
+            .type-auto { background: #c6f6d5; color: #276749; }
+            .type-manual { background: #feebc8; color: #7b4510; }
+            .fc-trial-name { font-size: 12px; color: #4a5568; margin-bottom: 8px; font-style: italic; }
+            .fc-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+            .fc-meta span { font-size: 11px; color: #718096; background: #f7fafc; padding: 2px 7px; border-radius: 10px; }
+            .fc-filename { font-size: 11px; color: #a0aec0; word-break: break-all; margin-bottom: 4px; }
+            .fc-saved { font-size: 10px; color: #a0aec0; }
+            .fc-hint { font-size: 10px; color: #3182ce; margin-top: 6px; font-weight: 600; }
+            .empty-state { text-align: center; padding: 60px 20px; }
+            .empty-icon { font-size: 56px; margin-bottom: 16px; }
+            .empty-title { font-size: 18px; font-weight: 700; color: #2d3748; margin-bottom: 8px; }
+            .empty-sub { font-size: 14px; color: #718096; }
+
+            .preview-overlay {
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.7); z-index: 1000;
+                display: flex; align-items: center; justify-content: center; padding: 16px;
+            }
+            .preview-panel {
+                background: #fff; border-radius: 12px; padding: 0;
+                width: min(96vw, 900px); height: min(94vh, 1000px); overflow: hidden;
+                box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+                display: flex; flex-direction: column;
+            }
+            .preview-panel-header {
+                background: linear-gradient(90deg, #1a365d, #2b6cb0); color: #fff;
+                padding: 14px 18px; border-radius: 12px 12px 0 0;
+                display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+                flex-shrink: 0;
+            }
+            .preview-panel-header h2 { margin: 0; font-size: 16px; font-weight: 700; line-height: 1.3; }
+            .preview-panel-header .pv-product { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 3px; }
+            .preview-close-btn {
+                background: rgba(255,255,255,0.2); border: none; color: #fff; width: 30px; height: 30px;
+                border-radius: 50%; font-size: 16px; cursor: pointer; flex-shrink: 0;
+                display: flex; align-items: center; justify-content: center; transition: background 0.2s;
+            }
+            .preview-close-btn:hover { background: rgba(255,255,255,0.35); }
+            .preview-body { flex: 1; overflow: hidden; min-height: 0; }
+            .preview-footer {
+                padding: 12px 18px; border-top: 1px solid #e2e8f0; flex-shrink: 0;
+                display: flex; gap: 10px; justify-content: flex-end; background: #fff;
+            }
+            .btn-load-from-preview {
+                padding: 10px 20px; background: #276749; color: #fff; border: none;
+                border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer;
+                transition: background 0.2s; display: flex; align-items: center; gap: 6px;
+            }
+            .btn-load-from-preview:hover { background: #22543d; }
+            .btn-close-preview {
+                padding: 10px 16px; background: #e2e8f0; color: #4a5568; border: none;
+                border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer;
+                transition: background 0.2s;
+            }
+            .btn-close-preview:hover { background: #cbd5e0; }
+
+            /* ── TOAST ── */
+            #saveToast {
+                position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+                background: #276749; color: #fff; padding: 13px 20px;
+                border-radius: 10px; font-size: 13px; font-weight: 600;
+                opacity: 0; transform: translateY(20px);
+                transition: opacity 0.35s, transform 0.35s;
+                box-shadow: 0 6px 20px rgba(0,0,0,0.25); max-width: 380px; pointer-events: none;
+            }
+            #saveToast.visible { opacity: 1; transform: translateY(0); }
+            #saveToast.toast-error { background: #c53030; }
+
+            /* ── DIR STATUS BAR ── */
+            #dirStatusBar {
+                max-width: 900px; margin: 12px auto 0; padding: 8px 16px;
+                border-radius: 8px; font-size: 12px; font-weight: 600;
+                display: none; align-items: center; gap: 8px;
+            }
+            #dirStatusBar.bar-ok { background: #c6f6d5; color: #276749; display: flex; }
+            #dirStatusBar.bar-warn { background: #feebc8; color: #7b4510; display: flex; }
+
+            @media (max-width: 768px) {
+                .form-body-wrap { padding: 15px 10px 0; }
+                .container { padding: 20px 15px; }
+                .files-grid { grid-template-columns: 1fr; }
+            }
+        }
+
+        .custom-value-input { background-color: #e0f2fe !important; color: #000 !important; font-weight: 600; }
+        .melt-expected { background-color: #f0fdf4 !important; color: #276749 !important; font-weight: 700; border-color: #9ae6b4 !important; }
+        .custom-value-span { display: inline-block; white-space: pre-wrap; word-break: break-word; }
+        .custom-text-bg { background-color: #e0f2fe !important; color: #000 !important; font-weight: 600; padding: 2px 6px; border-radius: 4px; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        .header-dropdown { width: auto; display: inline-block; padding: 2px 5px; font-size: 12px; margin-left: 10px; background-color: #fff; border: 1px solid #ccc; border-radius: 4px; font-weight: bold; color: #000; }
+
+        @media print {
+            @page { size: A4 portrait; margin: 15mm 12mm; }
+            body { font-family: 'Arial', Helvetica, sans-serif; font-size: 9pt; color: #000; margin: 0; padding: 0; background: #fff !important; background-image: none !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .tab-nav-bar { display: none !important; }
+            #recentTab { display: none !important; }
+            .preview-overlay { display: none !important; }
+            #saveToast { display: none !important; }
+            #dirStatusBar { display: none !important; }
+            .container { width: 100%; margin: 0; padding: 0; box-shadow: none; border: none; max-width: none; background: #fff !important; }
+            .print-btn, .save-btn, .load-btn, .setup-btn, .action-btn-row { display: none !important; }
+            .header { text-align: center; margin-bottom: 15px; padding: 10px; border: 2px solid #000; background-color: #f2f2f2 !important; }
+            .header h2 { font-size: 11pt; margin: 0 0 5px; color: #000; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;}
+            .header h1 { font-size: 18pt; font-family: 'Arial Black', Impact, sans-serif; font-weight: 900; margin: 0; color: #000;}
+            .header h3 { font-size: 12pt; margin: 8px auto 0; padding: 4px 15px; display: inline-block; background-color: #e0e0e0 !important; color: #000 !important; text-transform: uppercase; border: 1px solid #000; font-weight: bold; }
+            .table-responsive { overflow: visible !important; margin-bottom: 15px; border: none; box-shadow: none; }
+            .info-table, .data-table, .check-table { width: 100%; table-layout: fixed; border-collapse: collapse; border: 1px solid #000; }
+            .info-table td, .data-table th, .data-table td, .check-table th, .check-table td { border: 1px solid #000; padding: 5px 6px; vertical-align: middle; word-wrap: break-word; color: #000; }
+            .label, th, .sub-header, .section-label-th { background-color: #f2f2f2 !important; font-weight: bold; color: #000; font-size: 9pt; }
+            .data-table th { text-align: center; text-transform: uppercase; border-bottom: 2px solid #000; }
+            #manualInstructionsWrapper { background: transparent; padding: 0; border: none; }
+            .clean-input, .clean-textarea, .clean-select { border: none !important; background: transparent !important; padding: 0 !important; margin: 0 !important; font-size: 9pt; font-family: 'Arial', sans-serif; color: #000 !important; box-shadow: none !important; outline: none; appearance: none; -webkit-appearance: none; width: 100%; white-space: pre-wrap !important; word-wrap: break-word !important; overflow: visible !important; height: auto !important; }
+            .auto-expand { resize: none; overflow: visible; display: block; line-height: 1.3; height: auto !important; }
+            .clean-select::-ms-expand { display: none; }
+            input[type="date"]::-webkit-calendar-picker-indicator { display: none; }
+            .clean-select:invalid, .clean-input::placeholder, .clean-textarea::placeholder { color: transparent; }
+            .hide-on-print { display: none !important; }
+            .print-only { display: table-row !important; }
+            .print-only-inline { display: inline-block !important; font-weight: bold; color: #000; font-size: 9pt; white-space: pre-wrap !important; word-break: break-word !important; word-wrap: break-word !important; width: 100%; box-sizing: border-box; }
+            .print-only-div { display: block !important; }
+            .header-dropdown { background: transparent; border: none; font-size: 9pt; color: #000; padding: 0; margin-left: 5px; }
+            .apcc-print-small { font-size: 8pt !important; white-space: pre-wrap !important; line-height: 1.1; background-color: transparent !important; }
+            .empty-filler { border: none !important; background: transparent !important; pointer-events: none; border-right: 1px solid #000 !important;}
+            #trialNameInput { white-space: pre-wrap !important; overflow: visible !important; height: auto !important; word-wrap: break-word !important; }
+            #trialDescInput { min-height: 0 !important; height: auto !important; overflow: visible !important; white-space: pre-wrap !important; }
+            .melt-expected { background: transparent !important; font-weight: bold; }
+            tr { page-break-inside: avoid; break-inside: avoid; }
+            #noteTableWrapper { page-break-inside: avoid; margin-top: 15px; }
+            .page2-section { page-break-before: auto; padding-top: 0; margin-top: 0; }
+            .page2-section-note { display: none !important; }
+            .page2-header-bar { text-align: center; font-size: 14pt; font-weight: bold; color: #000; padding: 8px; border: 2px solid #000; background-color: #f2f2f2 !important; margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase; }
+            .check-table { margin-bottom: 10px; }
+            .check-col { width: 30px; text-align: center; }
+            input[type="checkbox"] { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; appearance: auto !important; -webkit-appearance: auto !important; width: 12px; height: 12px; }
+            .conditional-input { border: none !important; background: transparent !important; font-size: 9pt !important; font-family: 'Arial', sans-serif !important; color: #000 !important; padding: 0 !important; margin-left: 5px; display: inline !important; }
+            .chem-textarea, .additional-textarea { border: none !important; background: transparent !important; padding: 0 !important; font-size: 9pt; font-family: 'Arial', sans-serif; color: #000 !important; width: 100%; resize: none; overflow: visible; height: auto !important; white-space: pre-wrap !important; }
+            .section-table-wrapper { margin-bottom: 10px; }
+            #addHeatBtnRow { display: none !important; }
+            .conditional-input::placeholder { color: transparent !important; }
+            .form-body-wrap { padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     TAB NAVIGATION BAR
+     ════════════════════════════════════════ -->
+<div class="tab-nav-bar">
+    <span class="tab-nav-logo">⚙ MCP</span>
+    <button class="tab-nav-btn active" id="btnFormTab" onclick="switchTab('form')">📋 Trial Sheet</button>
+    <button class="tab-nav-btn" id="btnRecentTab" onclick="switchTab('recent')">🕒 Recent Files <span class="rc-badge" id="recentCount"></span></button>
+</div>
+
+<!-- ════════════════════════════════════════
+     FORM TAB
+     ════════════════════════════════════════ -->
+<div id="formTab" class="tab-panel active">
+    <div class="form-body-wrap">
+        <div class="container">
+            <div class="header">
+                <h2>Metal Casting Plant</h2>
+                <h1>WALTON Hi-Tech Industries PLC.</h1>
+                <h3>Trial Sheet</h3>
+            </div>
+
+            <div class="table-responsive">
+                <table class="info-table">
+                    <colgroup>
+                        <col style="width: 18%;"><col style="width: 32%;">
+                        <col style="width: 18%;"><col style="width: 32%;">
+                    </colgroup>
+                    <tr class="print-only">
+                        <td colspan="4" id="printRefTop" style="border:none;border-bottom:2px solid #000;font-size:10pt;font-weight:bold;text-align:left;padding:8px;"></td>
+                    </tr>
+                    <tr>
+                        <td class="label" style="font-size: 11px;">Doc. Num:</td>
+                        <td colspan="3">
+                            <input type="text" id="docNumInput" class="clean-input" placeholder="Enter Document Number" style="font-size: 12px;">
+                            <span id="printDocNumSpan" class="print-only-inline" style="display:none!important;white-space:pre-wrap;word-break:break-word;width:100%;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">Trial Name:</td>
+                        <td><textarea id="trialNameInput" class="clean-input auto-expand" rows="1" placeholder="Enter Trial Name" oninput="autoResize(this)"></textarea><span id="printTrialNameSpan" class="print-only-inline" style="display:none!important;white-space:pre-wrap;word-break:break-word;width:100%;display:block;"></span></td>
+                        <td class="label">Product Name:</td>
+                        <td><textarea id="productNameInput" class="clean-input auto-expand" rows="1" placeholder="Enter Product Name" oninput="autoResize(this)"></textarea><span id="printProductNameSpan" class="print-only-inline" style="display:none!important;white-space:pre-wrap;word-break:break-word;width:100%;"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="label" style="vertical-align: top; padding-top: 10px;">Purpose of Trial:</td>
+                        <td colspan="3">
+                            <textarea id="trialDescInput" class="clean-input auto-expand" rows="2" placeholder="Enter the purpose of the trial..." oninput="autoResize(this)"></textarea>
+                            <span id="printTrialDescSpan" class="print-only-inline" style="display:none!important;white-space:pre-wrap;word-break:break-word;width:100%;"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">Trial Required by:</td>
+                        <td>
+                            <select id="reqBySelect" class="clean-select hide-on-print" onchange="toggleReqBy(this)">
+                                <option value="" disabled selected>Select...</option>
+                                <option value="R&I">R&amp;I</option>
+                                <option value="Production">Production</option>
+                                <option value="Process">Process</option>
+                                <option value="R&I and Process">R&amp;I and Process</option>
+                                <option value="QM">QM</option>
+                                <option value="Maintance">Maintance</option>
+                                <option value="Text">Text (Enter Custom)</option>
+                            </select>
+                            <span id="printReqBySpan" class="print-only-inline"></span>
+                            <textarea id="reqByInput" class="clean-input custom-value-input auto-expand hide-on-print" rows="1" style="display: none;" placeholder="Enter custom department..." onblur="checkReqByRevert(this)" oninput="autoResize(this)"></textarea>
+                        </td>
+                        <td class="label">Date:</td>
+                        <td>
+                            <input type="date" id="dateInput" class="clean-input" style="height: 34px;">
+                            <span id="printDateSpan" class="print-only-inline"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">Pouring Type:</td>
+                        <td>
+                            <select id="trialTypeSelect" class="clean-select" required onchange="toggleManualInstructions()">
+                                <option value="" disabled selected>Select Pouring Type...</option>
+                                <option value="Auto">Auto</option>
+                                <option value="Manual">Manual</option>
+                            </select>
+                            <span class="print-only-inline print-span-replace"></span>
+                        </td>
+                        <td class="label">Material Type:</td>
+                        <td>
+                            <select id="materialTypeSelect" class="clean-select" required onchange="toggleManualInstructions()">
+                                <option value="" disabled selected>Select Iron Type...</option>
+                                <option value="Grey Cast Iron">Grey Cast Iron</option>
+                                <option value="Ductile Cast Iron">Ductile Cast Iron</option>
+                            </select>
+                            <span class="print-only-inline print-span-replace"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="table-responsive">
+                <table class="data-table">
+                    <colgroup>
+                        <col style="width: 13%;"><col style="width: 20%;">
+                        <col style="width: 13%;"><col style="width: 20%;">
+                        <col style="width: 14%;"><col style="width: 20%;">
+                    </colgroup>
+                    <tr>
+                        <th colspan="2">Chemical Composition</th>
+                        <th colspan="2">Thermal Analysis</th>
+                        <th colspan="2">Pouring Parameter</th>
+                    </tr>
+                    <tr><td style="font-weight:bold;">%C</td><td class="apcc-cell"></td><td style="font-weight:bold;">LET</td><td class="apcc-cell"></td><td style="font-weight:bold;">Pouring Temp. (°C)</td><td class="apcc-cell"></td></tr>
+                    <tr><td style="font-weight:bold;">%Si</td><td class="apcc-cell"></td><td style="font-weight:bold;">R</td><td class="apcc-cell"></td><td style="font-weight:bold;">Pouring Time</td><td class="apcc-cell"></td></tr>
+                    <tr><td style="font-weight:bold;">%Cu</td><td class="apcc-cell"></td><td style="font-weight:bold;">CEL</td><td class="apcc-cell"></td><td style="font-weight:bold;">Pouring Position</td><td class="apcc-cell"></td></tr>
+                    <tr><td style="font-weight:bold;">%Mn</td><td class="apcc-cell"></td><td colspan="2" class="sub-header" style="text-align:center;">Molding Sand</td><td style="font-weight:bold;">Inoculation rate (gm/s)</td><td class="apcc-cell"></td></tr>
+                    <tr><td style="font-weight:bold;">%Ti</td><td class="apcc-cell"></td><td style="font-weight:bold;">Moisture (%)</td><td class="apcc-cell" colspan="3"></td></tr>
+                    <tr><td style="font-weight:bold;">%Cr</td><td class="apcc-cell"></td><td style="font-weight:bold;">GCS (N/cm²)</td><td class="apcc-cell" colspan="3"></td></tr>
+                    <tr><td style="font-weight:bold;">%Al</td><td class="apcc-cell" colspan="5"></td></tr>
+                    <tr><td style="font-weight:bold;">%P</td><td class="apcc-cell" colspan="5"></td></tr>
+                    <tr><td style="font-weight:bold;">%Mg</td><td class="apcc-cell" colspan="5"></td></tr>
+                </table>
+            </div>
+
+            <div class="table-responsive">
+                <table class="data-table">
+                    <colgroup>
+                        <col style="width: 25%;"><col style="width: 25%;">
+                        <col style="width: 25%;"><col style="width: 25%;">
+                    </colgroup>
+                    <tr>
+                        <th id="meltshopTh" colspan="2">
+                            Meltshop
+                            <select class="header-dropdown">
+                                <option value="Running Condition" selected>Running Condition</option>
+                                <option value="With Purchase Scrap">With Purchase Scrap</option>
+                                <option value="Without Purchase Scrap">Without Purchase Scrap</option>
+                            </select>
+                            <span class="print-only-inline print-span-replace" style="margin-left: 5px;"></span>
+                        </th>
+                        <th id="manualTh" colspan="2" style="vertical-align:middle;display:none;">
+                            <div id="manualInstructionsWrapper" style="display:none;">
+                                <strong>Instructions for Manual Ductile Production:</strong><br>
+                                <select id="manualInstSelect" class="clean-select" style="margin-top:5px;font-weight:bold;" onchange="handleManualInstChange()">
+                                    <option value="Manual" selected>Manual Instruction</option>
+                                </select>
+                                <span class="print-only-inline print-span-replace" style="margin-top:5px;"></span>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold;">Foundry Return (%)</td>
+                        <td class="apcc-cell expand-value"></td>
+                        <td class="manual-label sub-header" colspan="2" style="text-align:center;font-weight:bold;text-transform:uppercase;display:none;">Mg TREATMENT</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold;">High Mn MS Scrap (%)</td>
+                        <td class="apcc-cell expand-value"></td>
+                        <td class="manual-label" style="font-weight:bold;display:none;">Melt Quantity</td>
+                        <td class="apcc-cell manual-value" data-group="ladle" style="display:none;"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold;">Low Mn MS Scrap (%)</td>
+                        <td class="apcc-cell expand-value"></td>
+                        <td class="manual-label" style="font-weight:bold;display:none;">Ladle Quantity</td>
+                        <td class="apcc-cell manual-value" data-group="ladle" style="display:none;"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold;">Silicon Carbide</td>
+                        <td class="apcc-cell expand-value"></td>
+                        <td class="manual-label" style="font-weight:bold;display:none;">Ladle Inoculant</td>
+                        <td class="apcc-cell manual-value" data-group="ladle" style="display:none;"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold;">Preseed Preconditioning</td>
+                        <td class="apcc-cell expand-value"></td>
+                        <td class="manual-label" style="font-weight:bold;display:none;">Covering</td>
+                        <td class="apcc-cell manual-value" data-group="ladle" style="display:none;"></td>
+                    </tr>
+                    <tr id="extraLadleRow" style="display:none;">
+                        <td colspan="2" class="empty-filler"></td>
+                        <td class="manual-label" style="font-weight:bold;border-left:1px solid #000!important;">Tapping Temp. (Ladle)</td>
+                        <td class="apcc-cell manual-value" data-group="ladle"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold;">Ferrogen (Cold Start / Cont. heat)</td>
+                        <td class="apcc-cell" colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold;">Tapping Temp. (Meltshop) (°C)</td>
+                        <td class="apcc-cell" colspan="3"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="table-responsive">
+                <table class="data-table" id="meltQtyTable">
+                    <colgroup>
+                        <col style="width:7%;"><col style="width:13%;">
+                        <col style="width:16%;"><col style="width:14%;">
+                        <col style="width:13%;"><col style="width:16%;"><col style="width:21%;">
+                    </colgroup>
+                    <tr><td colspan="7" style="font-weight:bold;background-color:#edf2f7;text-align:center;padding:7px;font-size:13px;letter-spacing:0.5px;">Melt Quantity</td></tr>
+                    <tr>
+                        <td class="label" style="text-align:center;font-size:11px;">Serial No.</td>
+                        <td class="label" style="text-align:center;font-size:11px;">Number of Heats</td>
+                        <td class="label" style="text-align:center;font-size:11px;">Amount of Metal perc Heat (kg)</td>
+                        <td class="label" style="text-align:center;font-size:11px;">Bunch Weight (kg)</td>
+                        <td class="label" style="text-align:center;font-size:11px;">Number of Molds</td>
+                        <td class="label" style="text-align:center;font-size:11px;">Cavity No. per Mold</td>
+                        <td class="label" style="text-align:center;font-size:11px;">Expected Number of Products</td>
+                    </tr>
+                    <tr class="melt-heat-row">
+                        <td style="text-align:center;font-weight:bold;color:#2b6cb0;">1</td>
+                        <td><textarea class="clean-input auto-expand melt-num-heats" rows="1" placeholder="e.g. 3" oninput="autoResize(this); calcNumMoldsFromRow(this)"></textarea></td>
+                        <td><textarea class="clean-input auto-expand melt-metal-per-heat" rows="1" placeholder="e.g. 1000" oninput="autoResize(this); calcNumMoldsFromRow(this)"></textarea></td>
+                        <td><textarea class="clean-input auto-expand melt-bunch-weight" rows="1" placeholder="e.g. 20" oninput="autoResize(this); calcNumMoldsFromRow(this)"></textarea></td>
+                        <td><textarea class="clean-input auto-expand melt-num-molds" rows="1" placeholder="Auto-calculated" oninput="autoResize(this); calcExpected(this)"></textarea></td>
+                        <td><textarea class="clean-input auto-expand melt-cavity" rows="1" placeholder="e.g. 4" oninput="autoResize(this); calcExpected(this)"></textarea></td>
+                        <td><input type="text" class="clean-input melt-expected" readonly placeholder="Auto" style="background:#f0f4f8;cursor:default;"></td>
+                    </tr>
+                    <tr id="addHeatBtnRow">
+                        <td colspan="7" style="text-align:center;padding:6px;">
+                            <button type="button" onclick="addHeatRow()" style="padding:5px 18px;background:#2b6cb0;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:bold;letter-spacing:0.5px;">＋ Add Heat</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="table-responsive" id="noteTableWrapper">
+                <table class="data-table" id="noteTable" style="margin-bottom:0;">
+                    <colgroup><col style="width:100%;"></colgroup>
+                    <tr><th style="text-align:left;padding-left:15px;">Note / Additional Comments</th></tr>
+                    <tr>
+                        <td style="padding:10px;">
+                            <textarea id="noteTextarea" class="clean-textarea auto-expand hide-on-print" placeholder="Add additional information like number of mold, melt quantity or any process modification" style="min-height:60px;width:100%;padding:5px;" oninput="autoResize(this)"></textarea>
+                            <div id="printNoteContent" class="print-only-div" style="white-space:pre-wrap;font-family:'Arial',sans-serif;font-size:9pt;padding:2px;"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- PAGE 2 -->
+            <div class="page2-section">
+                <div class="page2-section-note">⬇ Below content will appear on Page 2 of the printed PDF</div>
+                <div class="page2-header-bar">Required Test Reports</div>
+
+                <div class="section-table-wrapper">
+                    <div class="table-responsive">
+                        <table class="check-table">
+                            <colgroup><col style="width:89%;"><col style="width:11%;"></colgroup>
+                            <tr><th colspan="2" class="section-label-th">Sand Lab</th></tr>
+                            <tr><td>Sand Reports</td><td class="check-col"><input type="checkbox" id="chk_sand_reports"></td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="section-table-wrapper">
+                    <div class="table-responsive">
+                        <table class="check-table">
+                            <colgroup><col style="width:39%;"><col style="width:11%;"><col style="width:39%;"><col style="width:11%;"></colgroup>
+                            <tr><th colspan="4" class="section-label-th">Metallurgical Lab</th></tr>
+                            <tr>
+                                <td>Hardness Test<input type="text" id="hardnessLocationInput" class="conditional-input" placeholder="Specify Location" oninput="autoResizeInline(this)"></td>
+                                <td class="check-col"><input type="checkbox" id="chk_hardness" onchange="toggleConditional(this, 'hardnessLocationInput')"></td>
+                                <td>Microstructure</td>
+                                <td class="check-col"><input type="checkbox" id="chk_microstructure"></td>
+                            </tr>
+                            <tr>
+                                <td>Spectro Test Report</td>
+                                <td class="check-col"><input type="checkbox" id="chk_spectro"></td>
+                                <td>Melting Test Sample in Lab Furnace</td>
+                                <td class="check-col"><input type="checkbox" id="chk_melting_test"></td>
+                            </tr>
+                            <tr>
+                                <td>Cross-section Testing</td>
+                                <td class="check-col"><input type="checkbox" id="chk_crosssection"></td>
+                                <td></td><td class="check-col"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="section-table-wrapper">
+                    <div class="table-responsive">
+                        <table class="check-table">
+                            <colgroup><col style="width:39%;"><col style="width:11%;"><col style="width:39%;"><col style="width:11%;"></colgroup>
+                            <tr><th colspan="4" class="section-label-th">Metrology Lab</th></tr>
+                            <tr>
+                                <td>CMM</td><td class="check-col"><input type="checkbox" id="chk_cmm"></td>
+                                <td>Surface Roughness</td><td class="check-col"><input type="checkbox" id="chk_surface_roughness"></td>
+                            </tr>
+                            <tr>
+                                <td>Others<input type="text" id="metrologyOthersInput" class="conditional-input" placeholder="Specify..." style="width:calc(100% - 60px);"></td>
+                                <td class="check-col"><input type="checkbox" id="chk_metrology_others" onchange="toggleConditional(this,'metrologyOthersInput')"></td>
+                                <td></td><td class="check-col"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="section-table-wrapper">
+                    <div class="table-responsive">
+                        <table class="check-table">
+                            <colgroup><col style="width:100%;"></colgroup>
+                            <tr><th class="section-label-th">Chemical Lab</th></tr>
+                            <tr>
+                                <td style="padding:10px;">
+                                    <textarea id="chemLabTextarea" class="chem-textarea" placeholder="Enter required chemical lab tests or instructions..."></textarea>
+                                    <div id="printChemLabSpan" class="print-only-div" style="display:none!important;white-space:pre-wrap;word-break:break-word;font-family:'Arial',sans-serif;font-size:9pt;color:#000;width:100%;box-sizing:border-box;"></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="section-table-wrapper">
+                    <div class="table-responsive">
+                        <table class="check-table">
+                            <colgroup><col style="width:100%;"></colgroup>
+                            <tr><th class="section-label-th">Additional Test / Checking</th></tr>
+                            <tr>
+                                <td style="padding:10px;">
+                                    <textarea id="additionalTestTextarea" class="additional-textarea" placeholder="Enter any additional tests or checking requirements..."></textarea>
+                                    <div id="printAdditionalTestSpan" class="print-only-div" style="display:none!important;white-space:pre-wrap;word-break:break-word;font-family:'Arial',sans-serif;font-size:9pt;color:#000;width:100%;box-sizing:border-box;"></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div><!-- end page2-section -->
+        </div><!-- end container -->
+
+        <div class="action-btn-row">
+            <button class="save-btn" onclick="saveAndPrint()">💾 Generate PDF &amp; Save</button>
+            <button class="load-btn" onclick="loadTrialData()">📂 Browse Trial File</button>
+        </div>
+    </div><!-- end form-body-wrap -->
+</div><!-- end formTab -->
+
+<!-- ════════════════════════════════════════
+     RECENT FILES TAB
+     ════════════════════════════════════════ -->
+<div id="recentTab" class="tab-panel">
+    <div class="recent-wrapper">
+        <div class="search-section">
+            <div class="search-section-title">🔍 Search &amp; Filter Trial Files</div>
+            <div class="search-row">
+                <input type="text" id="searchProduct" placeholder="🔎 Product Name / Trial Name লিখুন..." oninput="searchRecent()">
+                <input type="date" id="searchDate" onchange="searchRecent()" title="তারিখ অনুযায়ী ফিল্টার">
+                <select id="searchReqBy" onchange="searchRecent()">
+                    <option value="">👤 সকল বিভাগ</option>
+                    <option value="R&I">R&amp;I</option>
+                    <option value="Production">Production</option>
+                    <option value="Process">Process</option>
+                    <option value="R&I and Process">R&amp;I and Process</option>
+                    <option value="QM">QM</option>
+                    <option value="Maintance">Maintance</option>
+                </select>
+                <select id="searchPouringType" onchange="searchRecent()">
+                    <option value="">⚙️ সকল Pouring Type</option>
+                    <option value="Auto">Auto</option>
+                    <option value="Manual">Manual</option>
+                </select>
+                <button class="search-clear-btn" onclick="clearSearch()">✕ Clear</button>
+            </div>
+        </div>
+        <div class="recent-hint">
+            👆 একটি ক্লিক → Preview দেখুন &nbsp;|&nbsp; ⤧ ডাবল ক্লিক → লোড করুন ও এডিট করুন
+        </div>
+        <div id="filesGrid" class="files-grid"></div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PREVIEW MODAL — Full PDF-style render
+     ════════════════════════════════════════ -->
+<div id="previewModal" style="display:none;" class="preview-overlay" onclick="closePreviewIfOutside(event)">
+    <div class="preview-panel">
+        <div class="preview-panel-header">
+            <div>
+                <h2 id="pvTrialName">Preview</h2>
+                <div class="pv-product" id="pvProduct"></div>
+            </div>
+            <button class="preview-close-btn" onclick="closePreview()">✕</button>
+        </div>
+        <div class="preview-body" style="padding:0;background:#525659;">
+            <iframe id="pvIframe" style="width:100%;height:100%;border:none;display:block;"></iframe>
+        </div>
+        <div class="preview-footer">
+            <button class="btn-close-preview" onclick="closePreview()">বন্ধ করুন</button>
+            <button class="btn-load-from-preview" onclick="loadCurrentPreview()">📂 লোড করুন ও এডিট করুন</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification -->
+<div id="saveToast"></div>
+
+<script>
+    // ─────────────────────────────────────────
+    //  UTILITY
+    // ─────────────────────────────────────────
+    function autoResize(el) { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; }
+    function autoResizeInline(el) {}
+    function escHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    function showToast(msg, isError) {
+        const t = document.getElementById('saveToast');
+        t.textContent = msg;
+        t.className = 'visible' + (isError ? ' toast-error' : '');
+        clearTimeout(t._timer);
+        t._timer = setTimeout(() => { t.className = ''; }, 4000);
+    }
+
+    function toggleConditional(checkbox, inputId) {
+        const input = document.getElementById(inputId);
+        if (checkbox.checked) { input.style.display = 'inline-block'; input.focus(); }
+        else { input.style.display = 'none'; input.value = ''; }
+    }
+
+    function getFormattedDate() {
+        const d = document.getElementById('dateInput').value;
+        if (!d) return "[DD-MM-YYYY]";
+        const [y, m, dd] = d.split('-');
+        return `${dd}-${m}-${y}`;
+    }
+
+    // ─────────────────────────────────────────
+    //  TAB MANAGEMENT
+    // ─────────────────────────────────────────
+    async function switchTab(tab) {
+        document.getElementById('formTab').classList.toggle('active', tab === 'form');
+        document.getElementById('recentTab').classList.toggle('active', tab === 'recent');
+        document.getElementById('btnFormTab').classList.toggle('active', tab === 'form');
+        document.getElementById('btnRecentTab').classList.toggle('active', tab === 'recent');
+        if (tab === 'recent') {
+            if (typeof window.refreshRecentFromDb === 'function') await window.refreshRecentFromDb();
+            searchRecent();
+            updateRecentBadge();
+        }
+    }
+
+    // ─────────────────────────────────────────
+    //  INDEXEDDB (Directory handle storage)
+    // ─────────────────────────────────────────
+    const DB_NAME = 'TrialMCP_DB', DB_VER = 1;
+
+    function openDB() {
+        return new Promise((resolve, reject) => {
+            const req = indexedDB.open(DB_NAME, DB_VER);
+            req.onupgradeneeded = e => {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains('config')) db.createObjectStore('config', {keyPath: 'k'});
+            };
+            req.onsuccess = e => resolve(e.target.result);
+            req.onerror = e => reject(e.target.error);
+        });
+    }
+
+    async function idbGet(key) {
+        try {
+            const db = await openDB();
+            return new Promise(res => {
+                const tx = db.transaction('config', 'readonly');
+                const r = tx.objectStore('config').get(key);
+                r.onsuccess = () => res(r.result ? r.result.v : null);
+                r.onerror = () => res(null);
+            });
+        } catch(e) { return null; }
+    }
+
+    async function idbSet(key, val) {
+        try {
+            const db = await openDB();
+            return new Promise((res, rej) => {
+                const tx = db.transaction('config', 'readwrite');
+                tx.objectStore('config').put({k: key, v: val});
+                tx.oncomplete = () => res();
+                tx.onerror = () => rej(tx.error);
+            });
+        } catch(e) { console.error('idbSet error', e); }
+    }
+
+    // ─────────────────────────────────────────
+    //  DIRECTORY HANDLE (File System Access API)
+    //  Auto-creates "Trial Files of MCP" folder on first save
+    // ─────────────────────────────────────────
+    let _cachedDirHandle = null;
+    async function getTrialDirHandle(forceNew = false) {
+        if (!window.showDirectoryPicker) return null;
+
+        // Return cached handle if still valid
+        if (!forceNew && _cachedDirHandle) {
+            try {
+                const p = await _cachedDirHandle.queryPermission({mode:'readwrite'});
+                if (p === 'granted') return _cachedDirHandle;
+            } catch(e) {}
+        }
+
+        // Try stored handle from IndexedDB
+        if (!forceNew) {
+            const stored = await idbGet('trialDir');
+            if (stored) {
+                try {
+                    const p = await stored.queryPermission({mode:'readwrite'});
+                    if (p === 'granted') { _cachedDirHandle = stored; return stored; }
+                    const np = await stored.requestPermission({mode:'readwrite'});
+                    if (np === 'granted') { _cachedDirHandle = stored; return stored; }
+                } catch(e) {}
+            }
+        }
+
+        const ok = confirm(
+            '📁  Trial File Save Folder Setup\n\n' +
+            'একটি ফোল্ডার সিলেক্ট পিকার খুলবে।\n' +
+            'যে ফোল্ডারে .trial ফাইল সেভ করতে চান সেটি সিলেক্ট করুন।\n\n' +
+            'OK চাপুন → ফোল্ডার সিলেক্ট করুন।'
+        );
+        if (!ok) return null;
+
+        try {
+            const handle = await window.showDirectoryPicker({mode:'readwrite'});
+            _cachedDirHandle = handle;
+            await idbSet('trialDir', handle);
+            updateDirStatus(handle.name);
+            await scanDirForTrialFiles(handle);
+            return handle;
+        } catch(e) {
+            if (e.name !== 'AbortError') console.error('Dir pick error:', e);
+            return null;
+        }
+    }
+
+    // Scan a directory handle for all .trial files and merge into recent list
+    async function scanDirForTrialFiles(dirHandle) {
+        if (!dirHandle) return;
+        let added = 0;
+        try {
+            for await (const entry of dirHandle.values()) {
+                if (entry.kind !== 'file') continue;
+                if (!entry.name.endsWith('.trial') && !entry.name.endsWith('.json')) continue;
+                try {
+                    const file = await entry.getFile();
+                    const text = await file.text();
+                    const data = JSON.parse(text);
+                    const reqBySelect = data['reqBySelect'] || '';
+                    const reqByInput = data['reqByInput'] || '';
+                    const requiredBy = reqBySelect === 'Text' ? reqByInput : reqBySelect;
+                    const info = {
+                        filename: entry.name,
+                        productName: data['productNameInput'] || '',
+                        trialName: data['trialNameInput'] || '',
+                        date: data['dateInput'] ? (function(d){ const [y,m,dd]=d.split('-'); return `${dd}-${m}-${y}`; })(data['dateInput']) : '',
+                        requiredBy,
+                        trialType: data['trialTypeSelect'] || '',
+                        materialType: data['materialTypeSelect'] || '',
+                        docNum: data['docNumInput'] || '',
+                        purpose: data['trialDescInput'] || '',
+                        savedAt: data['_savedAt'] || new Date(file.lastModified).toISOString(),
+                        data
+                    };
+                    addToRecentSilent(info);
+                    added++;
+                } catch(e) { /* skip corrupt files */ }
+            }
+        } catch(e) { console.error('Scan dir error:', e); }
+        if (added > 0) {
+            updateRecentBadge();
+            searchRecent();
+            showToast('📂 ' + added + 'টি .trial ফাইল ফোল্ডার থেকে লোড হয়েছে।');
+        }
+    }
+
+    // Add to recent without triggering a full refresh (used during scan)
+    function addToRecentSilent(info) {
+        let list = getRecentFiles();
+        // Only add if not already present with same filename
+        if (!list.find(f => f.filename === info.filename)) {
+            list.unshift(info);
+            if (list.length > MAX_RECENT) list.splice(MAX_RECENT);
+            localStorage.setItem(RECENT_KEY, JSON.stringify(list));
+        }
+    }
+
+    async function saveTrialFileToDir(filename, json) {
+        const dir = await getTrialDirHandle();
+        if (!dir) return false;
+        try {
+            const fh = await dir.getFileHandle(filename, {create:true});
+            const w = await fh.createWritable();
+            await w.write(json);
+            await w.close();
+            return true;
+        } catch(e) {
+            console.error('Write error:', e);
+            return false;
+        }
+    }
+
+    function updateDirStatus(name) {
+        const bar = document.getElementById('dirStatusBar');
+        if (name) {
+            bar.className = 'bar-ok';
+            bar.innerHTML = `✅ Save Folder: <strong>${escHtml(name)}</strong> &nbsp;·&nbsp; <span style="cursor:pointer;text-decoration:underline;" onclick="setupDirectory()">পরিবর্তন করুন</span>`;
+        } else {
+            bar.className = 'bar-warn';
+            bar.innerHTML = `⚠️ Save Folder সেটআপ করা হয়নি — .trial ফাইল Downloads-এ যাবে &nbsp;·&nbsp; <span style="cursor:pointer;text-decoration:underline;" onclick="setupDirectory()">এখনই সেটআপ করুন</span>`;
+        }
+    }
+
+    async function setupDirectory() {
+        const h = await getTrialDirHandle(true);
+        if (h) showToast('✅ Folder সেটআপ হয়েছে: ' + h.name);
+        else showToast('❌ Folder সেটআপ বাতিল হয়েছে।', true);
+    }
+
+    async function checkDirOnLoad() {
+        const bar = document.getElementById('dirStatusBar');
+        if (!window.showDirectoryPicker) {
+            bar.className = 'bar-warn';
+            bar.innerHTML = '⚠️ আপনার ব্রাউজার File System API সাপোর্ট করে না। .trial ফাইল Downloads-এ যাবে।';
+            return;
+        }
+        const stored = await idbGet('trialDir');
+        if (stored) {
+            try {
+                const p = await stored.requestPermission({mode:'readwrite'});
+                if (p === 'granted') {
+                    _cachedDirHandle = stored;
+                    updateDirStatus(stored.name);
+                    await scanDirForTrialFiles(stored);
+                    return;
+                }
+            } catch(e) {}
+            updateDirStatus(stored.name);
+        } else {
+            updateDirStatus(null);
+        }
+    }
+
+    // ─────────────────────────────────────────
+    //  RECENT FILES (localStorage)
+    // ─────────────────────────────────────────
+    const RECENT_KEY = 'MCP_RecentTrials';
+    const MAX_RECENT = 100;
+
+    function getRecentFiles() {
+        try { return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]'); }
+        catch(e) { return []; }
+    }
+
+    function addToRecent(info) {
+        let list = getRecentFiles();
+        // Each save is a unique file (different filename with timestamp), so just prepend
+        list = list.filter(f => f.filename !== info.filename); // avoid exact duplicate on rapid double-save
+        list.unshift(info);
+        if (list.length > MAX_RECENT) list.splice(MAX_RECENT);
+        localStorage.setItem(RECENT_KEY, JSON.stringify(list));
+        updateRecentBadge();
+    }
+
+    function updateRecentBadge() {
+        const n = getRecentFiles().length;
+        const b = document.getElementById('recentCount');
+        if (b) b.textContent = n > 0 ? n : '';
+    }
+
+    function formatSavedAt(iso) {
+        if (!iso) return '-';
+        try {
+            return new Date(iso).toLocaleString('en-GB', {
+                year:'numeric', month:'short', day:'numeric',
+                hour:'2-digit', minute:'2-digit'
+            });
+        } catch(e) { return iso; }
+    }
+
+    // ─────────────────────────────────────────
+    //  SEARCH & RENDER (Recent Tab)
+    // ─────────────────────────────────────────
+    let _currentFilteredFiles = [];
+    let _previewIndex = -1;
+
+    function searchRecent() {
+        const pQ = (document.getElementById('searchProduct').value || '').trim().toLowerCase();
+        const dQ = document.getElementById('searchDate').value; // YYYY-MM-DD
+        const rQ = document.getElementById('searchReqBy').value;
+        const pouringQ = document.getElementById('searchPouringType').value;
+
+        let files = getRecentFiles();
+
+        if (pQ) files = files.filter(f =>
+            (f.productName||'').toLowerCase().includes(pQ) ||
+            (f.trialName||'').toLowerCase().includes(pQ)
+        );
+
+        if (dQ) {
+            const [y, m, d] = dQ.split('-');
+            const dd = `${d}-${m}-${y}`;
+            files = files.filter(f => (f.date||'') === dd);
+        }
+
+        if (rQ) files = files.filter(f => (f.requiredBy||'') === rQ);
+
+        if (pouringQ) files = files.filter(f => (f.trialType||'') === pouringQ);
+
+        // Always sort by most recently saved
+        files.sort((a,b) => (b.savedAt||'').localeCompare(a.savedAt||''));
+
+        _currentFilteredFiles = files;
+        renderFilesGrid(files);
+    }
+
+    function clearSearch() {
+        document.getElementById('searchProduct').value = '';
+        document.getElementById('searchDate').value = '';
+        document.getElementById('searchReqBy').value = '';
+        document.getElementById('searchPouringType').value = '';
+        searchRecent();
+    }
+
+    function renderFilesGrid(files) {
+        const grid = document.getElementById('filesGrid');
+        if (!grid) return;
+        if (files.length === 0) {
+            grid.innerHTML = `
+                <div class="empty-state" style="grid-column:1/-1;">
+                    <div class="empty-icon">📂</div>
+                    <div class="empty-title">কোনো ফাইল পাওয়া যায়নি</div>
+                    <div class="empty-sub">Trial Sheet সেভ করলে এখানে দেখাবে।</div>
+                </div>`;
+            return;
+        }
+        grid.innerHTML = files.map((f, i) => `
+            <div class="file-card" id="fc_${i}"
+                 onclick="selectFile(${i})"
+                 ondblclick="loadFileFromRecent(${i})">
+                <div class="fc-header">
+                    <div class="fc-product">${escHtml(f.productName || 'N/A Product')}</div>
+                    <span class="fc-type ${(f.trialType||'') === 'Auto' ? 'type-auto' : 'type-manual'}">${escHtml(f.trialType||'-')}</span>
+                </div>
+                <div class="fc-trial-name">${escHtml(f.trialName||'(No Trial Name)')}</div>
+                <div class="fc-meta">
+                    <span>📅 ${escHtml(f.date||'-')}</span>
+                    <span>👤 ${escHtml(f.requiredBy||'-')}</span>
+                    <span>⚗️ ${escHtml((f.materialType||'-').replace(' Cast Iron',''))}</span>
+                </div>
+                <div class="fc-filename">${escHtml(f.filename)}</div>
+                <div class="fc-saved">💾 ${formatSavedAt(f.savedAt)}</div>
+                <div class="fc-hint">👁 Click → Preview &nbsp;|&nbsp; ⤧ Double Click → লোড করুন</div>
+            </div>`).join('');
+    }
+
+    function selectFile(i) {
+        document.querySelectorAll('.file-card').forEach((c, idx) => c.classList.toggle('selected', idx === i));
+        _previewIndex = i;
+        showPreviewModal(_currentFilteredFiles[i], i);
+    }
+
+    function showPreviewModal(f, i) {
+        if (!f || !f.data) return;
+        const data = f.data;
+
+        document.getElementById('pvTrialName').textContent = f.trialName || '(Untitled Trial)';
+        document.getElementById('pvProduct').textContent = f.productName ? '📦 ' + f.productName : '';
+
+        // ── Helper: get value from saved data ──
+        const v = (key) => (data[key] || '');
+        const checked = (key) => data[key] ? '☑' : '☐';
+
+        // ── Date formatting ──
+        const rawDate = v('dateInput');
+        let displayDate = rawDate;
+        if (rawDate && rawDate.includes('-') && rawDate.length === 10) {
+            const [y,m,d] = rawDate.split('-');
+            displayDate = `${d}-${m}-${y}`;
+        }
+
+        // ── Required By ──
+        const reqByVal = v('reqBySelect') === 'Text' ? v('reqByInput') : v('reqBySelect');
+
+        // ── APCC values ──
+        const apcc = data['apccValues'] || [];
+        const ap = (i) => apcc[i] || '';
+
+        // ── Heat rows ──
+        const heatRows = data['heatRows'] || [];
+        let heatRowsHTML = '';
+        if (heatRows.length === 0) {
+            heatRowsHTML = `<tr><td style="text-align:center;font-weight:bold;">1</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`;
+        } else {
+            heatRows.forEach((row, idx) => {
+                const cols = row.map(c => `<td>${c||''}</td>`).join('');
+                heatRowsHTML += `<tr><td style="text-align:center;font-weight:bold;">${idx+1}</td>${cols}</tr>`;
+            });
+        }
+
+        // ── Meltshop condition ──
+        const meltCond = data['meltshopCondition'] || 'Running Condition';
+
+        // ── Manual/Ductile: show extra columns? ──
+        const isManualDuctile = v('trialTypeSelect') === 'Manual' && v('materialTypeSelect') === 'Ductile Cast Iron';
+
+        // ── APCC index map matches the form's .apcc-cell order ──
+        // Chemical: 0=%C, 1=%Si, 2=%Cu, 3=%Mn, 4=%Ti, 5=%Cr, 6=%Al, 7=%P, 8=%Mg
+        // Thermal: 9=LET, 10=R, 11=CEL
+        // Molding Sand: 12=Moisture, 13=GCS
+        // Pouring: 14=PouringTemp, 15=PouringTime, 16=PouringPos, 17=InoculationRate
+        // Meltshop: 18=FoundryReturn, 19=HighMnMS, 20=LowMnMS, 21=SiC, 22=Preseed
+        // Manual: 23=MeltQty, 24=LadleQty, 25=LadleInoculant, 26=Covering, 27=TappingTempLadle
+        // Common: 28=Ferrogen (or could be offset — let's keep dynamic)
+        // We'll use sequential apcc[] indices as in the DOM
+
+        let manualColHTML = '';
+        if (isManualDuctile) {
+            manualColHTML = `
+                <td style="font-weight:bold;text-align:center;text-transform:uppercase;background:#f2f2f2;border:1px solid #000;" colspan="2">Mg Treatment</td>`;
+        }
+
+        // Build the complete print-like HTML document
+        const html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; color: #000; background: #525659; padding: 20px; }
+  .page { background: #fff; width: 210mm; min-height: 297mm; margin: 0 auto; padding: 15mm 12mm; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+  .page + .page { margin-top: 20px; }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-bottom: 12px; }
+  th, td { border: 1px solid #000; padding: 5px 6px; vertical-align: middle; word-wrap: break-word; }
+  th { background-color: #f2f2f2; font-weight: bold; font-size: 9pt; }
+  .header { text-align: center; margin-bottom: 15px; padding: 10px; border: 2px solid #000; background: #f2f2f2; }
+  .header .co { font-size: 11pt; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; margin-bottom: 4px; }
+  .header .title { font-size: 18pt; font-family: 'Arial Black', Impact, sans-serif; font-weight: 900; }
+  .header .sheet { font-size: 12pt; display: inline-block; padding: 4px 15px; background: #e0e0e0; border: 1px solid #000; font-weight: bold; text-transform: uppercase; margin-top: 6px; }
+  .ref-row td { border: none; border-bottom: 2px solid #000; font-size: 10pt; font-weight: bold; padding: 6px 4px; }
+  .label { background-color: #f2f2f2; font-weight: bold; }
+  .section-hdr { background: #f2f2f2; font-weight: bold; font-size: 9pt; text-align: left; padding-left: 10px; }
+  .data-th { text-align: center; text-transform: uppercase; border-bottom: 2px solid #000; background: #f2f2f2; }
+  .check-sym { font-size: 13px; }
+  .page2-hdr { text-align: center; font-size: 14pt; font-weight: bold; padding: 8px; border: 2px solid #000; background: #f2f2f2; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .empty { border: none !important; }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="co">Metal Casting Plant</div>
+    <div class="title">WALTON Hi-Tech Industries PLC.</div>
+    <div><span class="sheet">Trial Sheet</span></div>
+  </div>
+
+  <!-- Info table -->
+  <table style="margin-bottom:12px;">
+    <colgroup><col style="width:18%"><col style="width:32%"><col style="width:18%"><col style="width:32%"></colgroup>
+    <tr class="ref-row"><td colspan="4">Ref Number: ${v('productNameInput') || 'Product'}_${displayDate}_${v('trialTypeSelect') || 'TrialType'}</td></tr>
+    <tr><td class="label" style="font-size:11px;">Doc. Num:</td><td colspan="3">${v('docNumInput')}</td></tr>
+    <tr>
+      <td class="label">Trial Name:</td><td>${v('trialNameInput')}</td>
+      <td class="label">Product Name:</td><td>${v('productNameInput')}</td>
+    </tr>
+    <tr>
+      <td class="label" style="vertical-align:top;padding-top:6px;">Purpose of Trial:</td>
+      <td colspan="3" style="white-space:pre-wrap;">${v('trialDescInput')}</td>
+    </tr>
+    <tr>
+      <td class="label">Trial Required by:</td><td>${reqByVal}</td>
+      <td class="label">Date:</td><td>${displayDate}</td>
+    </tr>
+    <tr>
+      <td class="label">Pouring Type:</td><td>${v('trialTypeSelect')}</td>
+      <td class="label">Material Type:</td><td>${v('materialTypeSelect')}</td>
+    </tr>
+  </table>
+
+  <!-- Chemical / Thermal / Pouring table -->
+  <table style="margin-bottom:12px;">
+    <colgroup><col style="width:13%"><col style="width:20%"><col style="width:13%"><col style="width:20%"><col style="width:14%"><col style="width:20%"></colgroup>
+    <tr>
+      <th class="data-th" colspan="2">Chemical Composition</th>
+      <th class="data-th" colspan="2">Thermal Analysis</th>
+      <th class="data-th" colspan="2">Pouring Parameter</th>
+    </tr>
+    <tr><td style="font-weight:bold;">%C</td><td>${ap(0)}</td><td style="font-weight:bold;">LET</td><td>${ap(9)}</td><td style="font-weight:bold;">Pouring Temp. (°C)</td><td>${ap(14)}</td></tr>
+    <tr><td style="font-weight:bold;">%Si</td><td>${ap(1)}</td><td style="font-weight:bold;">R</td><td>${ap(10)}</td><td style="font-weight:bold;">Pouring Time</td><td>${ap(15)}</td></tr>
+    <tr><td style="font-weight:bold;">%Cu</td><td>${ap(2)}</td><td style="font-weight:bold;">CEL</td><td>${ap(11)}</td><td style="font-weight:bold;">Pouring Position</td><td>${ap(16)}</td></tr>
+    <tr><td style="font-weight:bold;">%Mn</td><td>${ap(3)}</td><td colspan="2" style="text-align:center;font-weight:bold;background:#f2f2f2;">Molding Sand</td><td style="font-weight:bold;">Inoculation rate (gm/s)</td><td>${ap(17)}</td></tr>
+    <tr><td style="font-weight:bold;">%Ti</td><td>${ap(4)}</td><td style="font-weight:bold;">Moisture (%)</td><td colspan="3">${ap(12)}</td></tr>
+    <tr><td style="font-weight:bold;">%Cr</td><td>${ap(5)}</td><td style="font-weight:bold;">GCS (N/cm²)</td><td colspan="3">${ap(13)}</td></tr>
+    <tr><td style="font-weight:bold;">%Al</td><td colspan="5">${ap(6)}</td></tr>
+    <tr><td style="font-weight:bold;">%P</td><td colspan="5">${ap(7)}</td></tr>
+    <tr><td style="font-weight:bold;">%Mg</td><td colspan="5">${ap(8)}</td></tr>
+  </table>
+
+  <!-- Meltshop table -->
+  <table style="margin-bottom:12px;">
+    <colgroup><col style="width:25%"><col style="width:25%"><col style="width:25%"><col style="width:25%"></colgroup>
+    <tr>
+      <th class="data-th" colspan="${isManualDuctile ? 2 : 4}">Meltshop — ${meltCond}</th>
+      ${isManualDuctile ? '<th class="data-th" colspan="2">Instructions for Manual Ductile Production</th>' : ''}
+    </tr>
+    <tr>
+      <td style="font-weight:bold;">Foundry Return (%)</td>
+      <td ${isManualDuctile ? '' : 'colspan="3"'}>${ap(18)}</td>
+      ${isManualDuctile ? '<td colspan="2" style="text-align:center;font-weight:bold;background:#f2f2f2;">Mg Treatment</td>' : ''}
+    </tr>
+    <tr>
+      <td style="font-weight:bold;">High Mn MS Scrap (%)</td>
+      <td ${isManualDuctile ? '' : 'colspan="3"'}>${ap(19)}</td>
+      ${isManualDuctile ? `<td style="font-weight:bold;">Melt Quantity</td><td>${ap(23)}</td>` : ''}
+    </tr>
+    <tr>
+      <td style="font-weight:bold;">Low Mn MS Scrap (%)</td>
+      <td ${isManualDuctile ? '' : 'colspan="3"'}>${ap(20)}</td>
+      ${isManualDuctile ? `<td style="font-weight:bold;">Ladle Quantity</td><td>${ap(24)}</td>` : ''}
+    </tr>
+    <tr>
+      <td style="font-weight:bold;">Silicon Carbide</td>
+      <td ${isManualDuctile ? '' : 'colspan="3"'}>${ap(21)}</td>
+      ${isManualDuctile ? `<td style="font-weight:bold;">Ladle Inoculant</td><td>${ap(25)}</td>` : ''}
+    </tr>
+    <tr>
+      <td style="font-weight:bold;">Preseed Preconditioning</td>
+      <td ${isManualDuctile ? '' : 'colspan="3"'}>${ap(22)}</td>
+      ${isManualDuctile ? `<td style="font-weight:bold;">Covering</td><td>${ap(26)}</td>` : ''}
+    </tr>
+    ${isManualDuctile ? `<tr><td colspan="2" style="border:none;border-right:1px solid #000;"></td><td style="font-weight:bold;">Tapping Temp. (Ladle)</td><td>${ap(27)}</td></tr>` : ''}
+    <tr><td style="font-weight:bold;">Ferrogen (Cold Start / Cont. heat)</td><td colspan="3">${ap(isManualDuctile ? 28 : 23)}</td></tr>
+    <tr><td style="font-weight:bold;">Tapping Temp. (Meltshop) (°C)</td><td colspan="3">${ap(isManualDuctile ? 29 : 24)}</td></tr>
+  </table>
+
+  <!-- Melt Quantity table -->
+  <table style="margin-bottom:12px;">
+    <colgroup><col style="width:7%"><col style="width:13%"><col style="width:16%"><col style="width:14%"><col style="width:13%"><col style="width:16%"><col style="width:21%"></colgroup>
+    <tr><td colspan="7" style="font-weight:bold;background:#f2f2f2;text-align:center;padding:6px;letter-spacing:0.5px;">Melt Quantity</td></tr>
+    <tr>
+      <th style="font-size:9px;text-align:center;">S/N</th>
+      <th style="font-size:9px;text-align:center;">No. of Heats</th>
+      <th style="font-size:9px;text-align:center;">Metal perc Heat (kg)</th>
+      <th style="font-size:9px;text-align:center;">Bunch Weight (kg)</th>
+      <th style="font-size:9px;text-align:center;">No. of Molds</th>
+      <th style="font-size:9px;text-align:center;">Cavity/Mold</th>
+      <th style="font-size:9px;text-align:center;">Expected Products</th>
+    </tr>
+    ${heatRowsHTML}
+  </table>
+
+  ${v('noteTextarea') ? `
+  <table style="margin-bottom:0;">
+    <colgroup><col style="width:100%"></colgroup>
+    <tr><th style="text-align:left;padding-left:12px;">Note / Additional Comments</th></tr>
+    <tr><td style="white-space:pre-wrap;padding:8px;">${v('noteTextarea')}</td></tr>
+  </table>` : ''}
+
+</div><!-- end page 1 -->
+
+<!-- PAGE 2 -->
+<div class="page" style="margin-top:20px;">
+  <div class="page2-hdr">Required Test Reports</div>
+
+  <!-- Sand Lab -->
+  <table style="margin-bottom:10px;">
+    <colgroup><col style="width:89%"><col style="width:11%"></colgroup>
+    <tr><th colspan="2" class="section-hdr">Sand Lab</th></tr>
+    <tr><td>Sand Reports</td><td style="text-align:center;" class="check-sym">${checked('chk_sand_reports')}</td></tr>
+  </table>
+
+  <!-- Metallurgical Lab -->
+  <table style="margin-bottom:10px;">
+    <colgroup><col style="width:39%"><col style="width:11%"><col style="width:39%"><col style="width:11%"></colgroup>
+    <tr><th colspan="4" class="section-hdr">Metallurgical Lab</th></tr>
+    <tr>
+      <td>Hardness Test${data['chk_hardness'] && v('hardnessLocationInput') ? ' — ' + v('hardnessLocationInput') : ''}</td>
+      <td style="text-align:center;" class="check-sym">${checked('chk_hardness')}</td>
+      <td>Microstructure</td>
+      <td style="text-align:center;" class="check-sym">${checked('chk_microstructure')}</td>
+    </tr>
+    <tr>
+      <td>Spectro Test Report</td>
+      <td style="text-align:center;" class="check-sym">${checked('chk_spectro')}</td>
+      <td>Melting Test Sample in Lab Furnace</td>
+      <td style="text-align:center;" class="check-sym">${checked('chk_melting_test')}</td>
+    </tr>
+    <tr>
+      <td>Cross-section Testing</td>
+      <td style="text-align:center;" class="check-sym">${checked('chk_crosssection')}</td>
+      <td></td><td></td>
+    </tr>
+  </table>
+
+  <!-- Metrology Lab -->
+  <table style="margin-bottom:10px;">
+    <colgroup><col style="width:39%"><col style="width:11%"><col style="width:39%"><col style="width:11%"></colgroup>
+    <tr><th colspan="4" class="section-hdr">Metrology Lab</th></tr>
+    <tr>
+      <td>CMM</td><td style="text-align:center;" class="check-sym">${checked('chk_cmm')}</td>
+      <td>Surface Roughness</td><td style="text-align:center;" class="check-sym">${checked('chk_surface_roughness')}</td>
+    </tr>
+    <tr>
+      <td>Others${data['chk_metrology_others'] && v('metrologyOthersInput') ? ' — ' + v('metrologyOthersInput') : ''}</td>
+      <td style="text-align:center;" class="check-sym">${checked('chk_metrology_others')}</td>
+      <td></td><td></td>
+    </tr>
+  </table>
+
+  ${v('chemLabTextarea') ? `
+  <!-- Chemical Lab -->
+  <table style="margin-bottom:10px;">
+    <colgroup><col style="width:100%"></colgroup>
+    <tr><th class="section-hdr">Chemical Lab</th></tr>
+    <tr><td style="white-space:pre-wrap;padding:8px;">${v('chemLabTextarea')}</td></tr>
+  </table>` : ''}
+
+  ${v('additionalTestTextarea') ? `
+  <!-- Additional Test -->
+  <table style="margin-bottom:10px;">
+    <colgroup><col style="width:100%"></colgroup>
+    <tr><th class="section-hdr">Additional Test / Checking</th></tr>
+    <tr><td style="white-space:pre-wrap;padding:8px;">${v('additionalTestTextarea')}</td></tr>
+  </table>` : ''}
+
+</div><!-- end page 2 -->
+
+</body>
+</html>`;
+
+        const iframe = document.getElementById('pvIframe');
+        iframe.srcdoc = html;
+        document.getElementById('pvTrialName').textContent = f.trialName || '(Untitled Trial)';
+        document.getElementById('pvProduct').textContent = f.productName ? '📦 ' + f.productName : '';
+        document.getElementById('previewModal').style.display = 'flex';
+    }
+
+    function closePreview() { document.getElementById('previewModal').style.display = 'none'; }
+    function closePreviewIfOutside(e) { if (e.target.id === 'previewModal') closePreview(); }
+
+    function loadCurrentPreview() {
+        if (_previewIndex >= 0) loadFileFromRecent(_previewIndex);
+    }
+
+    function loadFileFromRecent(i) {
+        const f = _currentFilteredFiles[i];
+        if (!f || !f.data) { alert('❌ ফাইল ডেটা পাওয়া যায়নি।'); return; }
+        const ok = confirm(`"${f.productName || f.filename}" ফাইলটি লোড করবেন?\n\nবর্তমান ফর্মের সকল ডেটা মুছে যাবে।`);
+        if (!ok) return;
+        closePreview();
+        switchTab('form');
+        restoreTrialData(f.data);
+        showToast('✅ "' + (f.productName || f.filename) + '" লোড হয়েছে!');
+    }
+
+    // ─────────────────────────────────────────
+    //  SAVE & PRINT
+    // ─────────────────────────────────────────
+    function collectFormData() {
+        const data = {};
+        ['docNumInput','trialNameInput','productNameInput','trialDescInput',
+         'dateInput','noteTextarea','chemLabTextarea','additionalTestTextarea',
+         'hardnessLocationInput','metrologyOthersInput','reqByInput'
+        ].forEach(id => { const el = document.getElementById(id); if (el) data[id] = el.value; });
+
+        ['reqBySelect','trialTypeSelect','materialTypeSelect'].forEach(id => {
+            const el = document.getElementById(id); if (el) data[id] = el.value;
+        });
+
+        const reqBySelect = document.getElementById('reqBySelect');
+        data['reqByMode'] = reqBySelect && reqBySelect.style.display === 'none' ? 'text' : 'select';
+
+        const hd = document.querySelector('.header-dropdown');
+        if (hd) data['meltshopCondition'] = hd.value;
+
+        ['chk_sand_reports','chk_hardness','chk_microstructure','chk_spectro',
+         'chk_melting_test','chk_crosssection','chk_cmm','chk_surface_roughness','chk_metrology_others'
+        ].forEach(id => { const el = document.getElementById(id); if (el) data[id] = el.checked; });
+
+        data['apccValues'] = [];
+        document.querySelectorAll('.apcc-cell').forEach(cell => {
+            const ta = cell.querySelector('textarea');
+            data['apccValues'].push(ta ? ta.value : '');
+        });
+
+        data['heatRows'] = [];
+        document.querySelectorAll('.melt-heat-row').forEach(row => {
+            data['heatRows'].push(Array.from(row.querySelectorAll('textarea')).map(ta => ta.value));
+        });
+        data['heatRowVersion'] = 2;
+        data['heatCount'] = heatCount;
+        return data;
+    }
+
+    async function saveTrialData() {
+        const data = collectFormData();
+        const prodName = (document.getElementById('productNameInput').value.trim() || 'Product').replace(/[\\/:\*\?"<>|]/g,'_');
+        const trialType = document.getElementById('trialTypeSelect').value || 'TrialType';
+        const displayDate = getFormattedDate();
+        // Add HHmm timestamp so re-saves always create a new file, never overwrite
+        const now = new Date();
+        const hhmm = String(now.getHours()).padStart(2,'0') + String(now.getMinutes()).padStart(2,'0');
+        const filename = `TrialSheet_${prodName}_${displayDate}_${trialType}_${hhmm}.trial`;
+
+        // Gather metadata for Recent Files (+ MySQL via db-bridge.js)
+        const reqBySelect = document.getElementById('reqBySelect');
+        const reqByInput = document.getElementById('reqByInput');
+        const requiredBy = reqBySelect.value === 'Text' ? reqByInput.value : reqBySelect.value;
+        const info = {
+            filename,
+            productName: document.getElementById('productNameInput').value.trim(),
+            trialName: document.getElementById('trialNameInput').value.trim(),
+            date: displayDate,
+            requiredBy,
+            trialType: document.getElementById('trialTypeSelect').value,
+            materialType: document.getElementById('materialTypeSelect').value,
+            docNum: document.getElementById('docNumInput').value.trim(),
+            purpose: document.getElementById('trialDescInput').value.trim(),
+            savedAt: new Date().toISOString(),
+            data
+        };
+
+        addToRecent(info);
+        showToast('✅ সেভ হয়েছে (ডাটাবেস + Recent Files)');
+    }
+
+    async function saveAndPrint() {
+        // Start saving (async), then print
+        const savePromise = saveTrialData();
+        window.print();
+        await savePromise;
+    }
+
+    // ─────────────────────────────────────────
+    //  LOAD TRIAL FILE (Browse)
+    // ─────────────────────────────────────────
+    function loadTrialData() {
+        const input = document.createElement('input');
+        input.type = 'file'; input.accept = '.trial,.json';
+        input.onchange = function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                try {
+                    const data = JSON.parse(ev.target.result);
+                    restoreTrialData(data);
+                    showToast('✅ Trial ফাইল সফলভাবে লোড হয়েছে!');
+                } catch(err) { alert('❌ ফাইল লোড করা যায়নি। সঠিক .trial ফাইল সিলেক্ট করুন।'); }
+            };
+            reader.readAsText(file);
+        };
+        input.click();
+    }
+
+    function restoreTrialData(data) {
+        ['docNumInput','trialNameInput','productNameInput','trialDescInput',
+         'dateInput','noteTextarea','chemLabTextarea','additionalTestTextarea',
+         'hardnessLocationInput','metrologyOthersInput','reqByInput'
+        ].forEach(id => {
+            const el = document.getElementById(id);
+            if (el && data[id] !== undefined) { el.value = data[id]; if (el.tagName === 'TEXTAREA') autoResize(el); }
+        });
+
+        if (data['trialTypeSelect'] !== undefined) document.getElementById('trialTypeSelect').value = data['trialTypeSelect'];
+        if (data['materialTypeSelect'] !== undefined) document.getElementById('materialTypeSelect').value = data['materialTypeSelect'];
+        toggleManualInstructions();
+
+        if (data['reqBySelect'] !== undefined) {
+            const sel = document.getElementById('reqBySelect');
+            const inp = document.getElementById('reqByInput');
+            if (data['reqByMode'] === 'text') {
+                if (sel) sel.style.display = 'none';
+                if (inp) { inp.style.display = 'block'; autoResize(inp); }
+            } else {
+                if (sel) { sel.style.display = 'block'; sel.value = data['reqBySelect']; }
+                if (inp) inp.style.display = 'none';
+            }
+        }
+
+        const hd = document.querySelector('.header-dropdown');
+        if (hd && data['meltshopCondition'] !== undefined) hd.value = data['meltshopCondition'];
+
+        ['chk_sand_reports','chk_hardness','chk_microstructure','chk_spectro',
+         'chk_melting_test','chk_crosssection','chk_cmm','chk_surface_roughness','chk_metrology_others'
+        ].forEach(id => {
+            const el = document.getElementById(id);
+            if (el && data[id] !== undefined) {
+                el.checked = data[id];
+                if (id === 'chk_hardness') toggleConditional(el, 'hardnessLocationInput');
+                if (id === 'chk_metrology_others') toggleConditional(el, 'metrologyOthersInput');
+            }
+        });
+
+        if (data['apccValues']) {
+            document.querySelectorAll('.apcc-cell').forEach((cell, i) => {
+                const ta = cell.querySelector('textarea');
+                if (ta && data['apccValues'][i] !== undefined) { ta.value = data['apccValues'][i]; autoResize(ta); }
+            });
+        }
+
+        if (data['heatRows'] && data['heatRows'].length > 0) {
+            let rows = data['heatRows'];
+            if (data['heatRowVersion'] !== 2) {
+                rows = rows.map(row => {
+                    if (row.length >= 5) return [row[0], row[1], row[3], row[2], row[4]];
+                    return row;
+                });
+            }
+            document.querySelectorAll('.melt-heat-row').forEach(r => r.remove());
+            heatCount = 0;
+            rows.forEach(rowVals => {
+                heatCount++;
+                const addRow = document.getElementById('addHeatBtnRow');
+                const newRow = document.createElement('tr');
+                newRow.className = 'melt-heat-row';
+                newRow.innerHTML = buildHeatRowHTML(heatCount);
+                addRow.parentNode.insertBefore(newRow, addRow);
+                const tas = newRow.querySelectorAll('textarea');
+                tas.forEach((ta, j) => { if (rowVals[j] !== undefined) { ta.value = rowVals[j]; autoResize(ta); } });
+                const moldsEl = newRow.querySelector('.melt-num-molds');
+                if (moldsEl) calcExpected(moldsEl);
+            });
+        }
+    }
+
+    // ─────────────────────────────────────────
+    //  FORM LOGIC (unchanged)
+    // ─────────────────────────────────────────
+    document.addEventListener("DOMContentLoaded", function() {
+        const apccHTML = `
+            <textarea class="clean-input auto-expand apcc-direct-input" rows="1" placeholder="Enter value..." oninput="autoResize(this)"></textarea>
+            <span class="print-only-inline custom-value-span" style="display:none!important;"></span>`;
+        document.querySelectorAll('.apcc-cell').forEach(cell => { cell.innerHTML = apccHTML; });
+        toggleManualInstructions();
+        if (typeof window.refreshRecentFromDb === 'function') {
+            window.refreshRecentFromDb().then(() => updateRecentBadge());
+        } else {
+            updateRecentBadge();
+        }
+    });
+
+    function toggleReqBy(selectElement) {
+        if (selectElement.value === "Text") {
+            selectElement.style.display = "none";
+            const inp = selectElement.nextElementSibling.nextElementSibling;
+            inp.style.display = "block"; inp.focus();
+        }
+    }
+
+    function checkReqByRevert(inputElement) {
+        if (inputElement.value.trim() === "") {
+            inputElement.style.display = "none";
+            const sel = inputElement.previousElementSibling.previousElementSibling;
+            sel.value = ""; sel.style.display = "block";
+        }
+    }
+
+    function toggleManualInstructions() {
+        const tt = document.getElementById("trialTypeSelect").value;
+        const mt = document.getElementById("materialTypeSelect").value;
+        const wrapper = document.getElementById("manualInstructionsWrapper");
+        const meltshopTh = document.getElementById("meltshopTh");
+        const manualTh = document.getElementById("manualTh");
+        const manualLabels = document.querySelectorAll('.manual-label');
+        const manualValues = document.querySelectorAll('.manual-value');
+        const expandValues = document.querySelectorAll('.expand-value');
+        const extraLadleRow = document.getElementById("extraLadleRow");
+
+        if (tt === "Manual" && mt === "Ductile Cast Iron") {
+            wrapper.style.display = "block"; manualTh.style.display = "table-cell";
+            meltshopTh.colSpan = 2; extraLadleRow.style.display = "table-row";
+            manualLabels.forEach(el => el.style.display = "table-cell");
+            manualValues.forEach(el => el.style.display = "table-cell");
+            expandValues.forEach(el => el.colSpan = 1);
+        } else {
+            wrapper.style.display = "none"; manualTh.style.display = "none";
+            meltshopTh.colSpan = 4; extraLadleRow.style.display = "none";
+            manualLabels.forEach(el => el.style.display = "none");
+            manualValues.forEach(el => el.style.display = "none");
+            expandValues.forEach(el => el.colSpan = 3);
+        }
+    }
+
+    function handleManualInstChange() {
+        document.querySelectorAll('td[data-group="ladle"]').forEach(cell => {
+            const el = cell.querySelector('textarea');
+            if (el) { el.disabled = false; el.style.opacity = '1'; }
+        });
+    }
+
+    let heatCount = 1;
+    function buildHeatRowHTML(n) {
+        return `<td style="text-align:center;font-weight:bold;color:#2b6cb0;">${n}</td>
+            <td><textarea class="clean-input auto-expand melt-num-heats" rows="1" placeholder="e.g. 3" oninput="autoResize(this); calcNumMoldsFromRow(this)"></textarea></td>
+            <td><textarea class="clean-input auto-expand melt-metal-per-heat" rows="1" placeholder="e.g. 1000" oninput="autoResize(this); calcNumMoldsFromRow(this)"></textarea></td>
+            <td><textarea class="clean-input auto-expand melt-bunch-weight" rows="1" placeholder="e.g. 20" oninput="autoResize(this); calcNumMoldsFromRow(this)"></textarea></td>
+            <td><textarea class="clean-input auto-expand melt-num-molds" rows="1" placeholder="Auto-calculated" oninput="autoResize(this); calcExpected(this)"></textarea></td>
+            <td><textarea class="clean-input auto-expand melt-cavity" rows="1" placeholder="e.g. 4" oninput="autoResize(this); calcExpected(this)"></textarea></td>
+            <td><input type="text" class="clean-input melt-expected" readonly placeholder="Auto" style="background:#f0f4f8;cursor:default;"></td>`;
+    }
+
+    function addHeatRow() {
+        heatCount++;
+        const addRow = document.getElementById('addHeatBtnRow');
+        const newRow = document.createElement('tr');
+        newRow.className = 'melt-heat-row';
+        newRow.innerHTML = buildHeatRowHTML(heatCount);
+        addRow.parentNode.insertBefore(newRow, addRow);
+    }
+
+    function parseMeltNum(val) {
+        const n = parseFloat(String(val || '').replace(/,/g, '').trim());
+        return isNaN(n) ? null : n;
+    }
+
+    function calcNumMoldsFromRow(el) {
+        const row = el && el.closest ? el.closest('tr') : null;
+        if (!row) return;
+        const heats = parseMeltNum(row.querySelector('.melt-num-heats')?.value);
+        const metal = parseMeltNum(row.querySelector('.melt-metal-per-heat')?.value);
+        const bunch = parseMeltNum(row.querySelector('.melt-bunch-weight')?.value);
+        const moldsEl = row.querySelector('.melt-num-molds');
+        if (!moldsEl) return;
+        if (heats != null && metal != null && bunch != null && bunch > 0) {
+            const molds = Math.floor((heats * metal) / bunch);
+            moldsEl.value = molds >= 0 ? String(molds) : '';
+            autoResize(moldsEl);
+            calcExpected(moldsEl);
+        }
+    }
+
+    function calcExpected(el) {
+        const row = el.closest('tr');
+        const m = parseMeltNum(row.querySelector('.melt-num-molds').value);
+        const c = parseMeltNum(row.querySelector('.melt-cavity').value);
+        const exp = row.querySelector('.melt-expected');
+        if (exp) exp.value = (m != null && c != null) ? m * c : '';
+    }
+
+    // ─────────────────────────────────────────
+    //  PRINT EVENTS
+    // ─────────────────────────────────────────
+    let originalTitle = document.title;
+
+    function getMcpLoggedInUser() {
+        try {
+            const raw = localStorage.getItem('user') || window.parent?.localStorage?.getItem('user');
+            return raw ? JSON.parse(raw) : null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    window.addEventListener('beforeprint', function() {
+        const fieldMap = {
+            'docNumInput':'printDocNumSpan', 'trialNameInput':'printTrialNameSpan',
+            'productNameInput':'printProductNameSpan', 'trialDescInput':'printTrialDescSpan'
+        };
+        Object.entries(fieldMap).forEach(([inp, sp]) => {
+            const el = document.getElementById(inp), span = document.getElementById(sp);
+            if (!el || !span) return;
+            el.classList.add('hide-on-print');
+            span.innerText = el.value || '';
+            span.style.setProperty('display','inline-block','important');
+        });
+
+        document.querySelectorAll('.auto-expand').forEach(el => autoResize(el));
+
+        const td = document.getElementById('trialDescInput');
+        if (td) { td.style.height = 'auto'; td.style.height = td.scrollHeight + 'px'; }
+
+        document.querySelectorAll('.melt-expected').forEach(el => el.style.background = 'transparent');
+
+        const noteInput = document.getElementById('noteTextarea');
+        const noteWrapper = document.getElementById('noteTableWrapper');
+        const printNote = document.getElementById('printNoteContent');
+        printNote.innerText = noteInput.value;
+        if (noteInput.value.trim() === "") noteWrapper.classList.add('hide-on-print');
+
+        ['chemLabTextarea','additionalTestTextarea'].forEach(id => {
+            const ta = document.getElementById(id);
+            const sp = document.getElementById(id === 'chemLabTextarea' ? 'printChemLabSpan' : 'printAdditionalTestSpan');
+            if (!ta) return;
+            if (ta.value.trim() === '') { ta.closest('.section-table-wrapper').classList.add('hide-on-print'); }
+            else { ta.classList.add('hide-on-print'); sp.innerText = ta.value; sp.style.setProperty('display','block','important'); }
+        });
+
+        ['hardnessLocationInput','metrologyOthersInput'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el && el.value.trim() === '') el.classList.add('hide-on-print');
+        });
+
+        const addHeatRow = document.getElementById('addHeatBtnRow');
+        if (addHeatRow) addHeatRow.classList.add('hide-on-print');
+
+        const dateInput = document.getElementById('dateInput');
+        document.getElementById('printDateSpan').innerText = getFormattedDate();
+        dateInput.classList.add('hide-on-print');
+
+        const rbs = document.getElementById('reqBySelect');
+        const rbi = document.getElementById('reqByInput');
+        const rbsp = document.getElementById('printReqBySpan');
+        rbsp.innerText = rbs.value === 'Text' ? rbi.value : rbs.value;
+        rbsp.style.setProperty('display','inline-block','important');
+
+        const prodName = document.getElementById('productNameInput').value.trim() || "Product";
+        const trialType = document.getElementById('trialTypeSelect').value || "TrialType";
+        const displayDate = getFormattedDate();
+        const mcpUser = getMcpLoggedInUser();
+        const creatorName = mcpUser?.name || '—';
+        const employeeId = mcpUser?.employee_id || '';
+        const creatorLine = employeeId
+            ? `Prepared by: ${creatorName} - ${employeeId}`
+            : `Prepared by: ${creatorName}`;
+        document.getElementById('printRefTop').innerHTML =
+            `Ref Number: ${escHtml(prodName)}_${escHtml(displayDate)}_${escHtml(trialType)}<br>${escHtml(creatorLine)}`;
+        document.title = `TrialSheet_${prodName}_${displayDate}_${trialType}`;
+
+        document.querySelectorAll('.apcc-cell').forEach(cell => {
+            const ta = cell.querySelector('textarea'), sp = cell.querySelector('.custom-value-span');
+            if (!ta || !sp) return;
+            ta.classList.add('hide-on-print');
+            if (ta.value.trim()) {
+                sp.innerText = ta.value;
+                sp.className = 'print-only-inline custom-value-span custom-text-bg';
+                sp.style.setProperty('display','inline-block','important');
+            } else {
+                sp.innerText = ''; sp.style.setProperty('display','none','important');
+            }
+        });
+
+        document.querySelectorAll('.print-span-replace').forEach(sp => {
+            const sel = sp.previousElementSibling;
+            sel.classList.add('hide-on-print');
+            sp.innerText = sel.value ? sel.options[sel.selectedIndex].text : '';
+            sp.style.setProperty('display','inline-block','important');
+        });
+    });
+
+    window.addEventListener('afterprint', function() {
+        const fieldMap = {
+            'docNumInput':'printDocNumSpan', 'trialNameInput':'printTrialNameSpan',
+            'productNameInput':'printProductNameSpan', 'trialDescInput':'printTrialDescSpan'
+        };
+        Object.entries(fieldMap).forEach(([inp, sp]) => {
+            const el = document.getElementById(inp), span = document.getElementById(sp);
+            if (!el || !span) return;
+            el.classList.remove('hide-on-print');
+            span.style.setProperty('display','none','important');
+        });
+        document.getElementById('noteTableWrapper').classList.remove('hide-on-print');
+        document.getElementById('dateInput').classList.remove('hide-on-print');
+        document.getElementById('printReqBySpan').style.setProperty('display','none','important');
+        document.title = originalTitle;
+
+        ['chemLabTextarea','additionalTestTextarea'].forEach(id => {
+            const ta = document.getElementById(id);
+            if (ta) { ta.closest('.section-table-wrapper').classList.remove('hide-on-print'); ta.classList.remove('hide-on-print'); }
+        });
+        ['printChemLabSpan','printAdditionalTestSpan'].forEach(id => {
+            const sp = document.getElementById(id);
+            if (sp) sp.style.setProperty('display','none','important');
+        });
+        ['hardnessLocationInput','metrologyOthersInput'].forEach(id => {
+            const el = document.getElementById(id); if (el) el.classList.remove('hide-on-print');
+        });
+        const addHeatRow = document.getElementById('addHeatBtnRow');
+        if (addHeatRow) addHeatRow.classList.remove('hide-on-print');
+
+        document.querySelectorAll('.apcc-cell').forEach(cell => {
+            const ta = cell.querySelector('textarea'), sp = cell.querySelector('.custom-value-span');
+            if (!ta || !sp) return;
+            ta.classList.remove('hide-on-print');
+            sp.style.setProperty('display','none','important');
+        });
+
+        document.querySelectorAll('.print-span-replace').forEach(sp => {
+            const sel = sp.previousElementSibling;
+            sel.classList.remove('hide-on-print');
+            sp.style.setProperty('display','none','important');
+        });
+    });
+</script>
+<script src="/legacy/db-bridge.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "host": "waltonmcp.localhost",
+  "devBindHost": "127.0.0.1",
+  "serveMode": "apache",
+  "apiPort": 5080,
+  "vitePreviewPort": 4180,
+  "apiUrl": "",
+  "dbHost": "127.0.0.1",
+  "dbPort": 3306,
+  "dbName": "walton_mcp_trial",
+  "dbUser": "root",
+  "dbPassword": "",
+  "jwtSecret": "walton-mcp-local-dev-secret-change-me"
+}

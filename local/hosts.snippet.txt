@@ -1,0 +1,2 @@
+# Add this line only — do not remove hris / dms / shipment entries
+127.0.0.1  waltonmcp.localhost

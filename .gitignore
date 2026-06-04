@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+local/dev.json
+local/*.local.*
+# Keep apache/waltonmcp.localhost.conf in repo; copy path is project-specific
+*.log
+.DS_Store
+server/uploads/*
+!server/uploads/.gitkeep
+.vscode/
+.idea/
