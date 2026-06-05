@@ -90,21 +90,16 @@
       try {
         const data = typeof collectFormData === 'function' ? collectFormData() : null;
         if (!data) return;
-        const prodName = (document.getElementById('productNameInput')?.value?.trim() || 'Product').replace(
-          /[\\/:*?"<>|]/g,
-          '_'
-        );
+        const prodName = document.getElementById('productNameInput')?.value?.trim() || 'Product';
         const trialType = document.getElementById('trialTypeSelect')?.value || 'TrialType';
         const displayDate =
           typeof getFormattedDate === 'function' ? getFormattedDate() : '';
-        const now = new Date();
-        const hhmm =
-          String(now.getHours()).padStart(2, '0') + String(now.getMinutes()).padStart(2, '0');
-        const filename = `TrialSheet_${prodName}_${displayDate}_${trialType}_${hhmm}.trial`;
-        const reqBySelect = document.getElementById('reqBySelect');
-        const reqByInput = document.getElementById('reqByInput');
         const requiredBy =
-          reqBySelect?.value === 'Text' ? reqByInput?.value : reqBySelect?.value;
+          typeof getRequiredByFromForm === 'function' ? getRequiredByFromForm() : '';
+        const filename =
+          typeof buildTrialFilename === 'function'
+            ? buildTrialFilename(prodName, displayDate, trialType, requiredBy)
+            : `TrialSheet_${prodName}_${displayDate}_${trialType}.trial`;
 
         if (!getToken()) return;
 

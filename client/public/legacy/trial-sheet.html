@@ -218,6 +218,12 @@
                 transition: background 0.2s;
             }
             .btn-close-preview:hover { background: #cbd5e0; }
+            .btn-save-pdf-preview {
+                padding: 10px 20px; background: #2b6cb0; color: #fff; border: none;
+                border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer;
+                transition: background 0.2s;
+            }
+            .btn-save-pdf-preview:hover { background: #2c5282; }
 
             /* ── TOAST ── */
             #saveToast {
@@ -692,8 +698,9 @@
             <iframe id="pvIframe" style="width:100%;height:100%;border:none;display:block;"></iframe>
         </div>
         <div class="preview-footer">
-            <button class="btn-close-preview" onclick="closePreview()">বন্ধ করুন</button>
-            <button class="btn-load-from-preview" onclick="loadCurrentPreview()">📂 লোড করুন ও এডিট করুন</button>
+            <button class="btn-close-preview" onclick="closePreview()">Close</button>
+            <button class="btn-save-pdf-preview" onclick="savePreviewPdf()">Save PDF</button>
+            <button class="btn-load-from-preview" onclick="loadCurrentPreview()">Load &amp; Edit</button>
         </div>
     </div>
 </div>
@@ -729,6 +736,39 @@
         const [y, m, dd] = d.split('-');
         return `${dd}-${m}-${y}`;
     }
+
+    function sanitizeFilenamePart(str) {
+        return (String(str || '').trim().replace(/[\\/:*?"<>|]/g, '_') || 'Unknown');
+    }
+
+    /** TrialSheet_ProductName_Date_PouringType_RequiredBy */
+    function buildTrialBaseName(productName, displayDate, pouringType, requiredBy) {
+        const prod = sanitizeFilenamePart(productName || 'Product');
+        const date = sanitizeFilenamePart(displayDate || '[DD-MM-YYYY]');
+        const pour = sanitizeFilenamePart(pouringType || 'TrialType');
+        const req = sanitizeFilenamePart(requiredBy || 'Unknown');
+        return `TrialSheet_${prod}_${date}_${pour}_${req}`;
+    }
+
+    function buildTrialFilename(productName, displayDate, pouringType, requiredBy) {
+        return buildTrialBaseName(productName, displayDate, pouringType, requiredBy) + '.trial';
+    }
+
+    function getRequiredByFromForm() {
+        const reqBySelect = document.getElementById('reqBySelect');
+        const reqByInput = document.getElementById('reqByInput');
+        if (!reqBySelect) return '';
+        return reqBySelect.value === 'Text' ? (reqByInput?.value?.trim() || '') : reqBySelect.value;
+    }
+
+    function getRequiredByFromData(data) {
+        if (!data) return '';
+        return data.reqBySelect === 'Text' ? (data.reqByInput || '') : (data.reqBySelect || '');
+    }
+
+    window.buildTrialBaseName = buildTrialBaseName;
+    window.buildTrialFilename = buildTrialFilename;
+    window.getRequiredByFromForm = getRequiredByFromForm;
 
     // ─────────────────────────────────────────
     //  TAB MANAGEMENT
@@ -1082,7 +1122,13 @@
         }
 
         // ── Required By ──
-        const reqByVal = v('reqBySelect') === 'Text' ? v('reqByInput') : v('reqBySelect');
+        const reqByVal = getRequiredByFromData(data);
+        const previewFileBase = buildTrialBaseName(
+            f.productName || v('productNameInput'),
+            f.date || displayDate,
+            f.trialType || v('trialTypeSelect'),
+            f.requiredBy || reqByVal
+        );
 
         // ── APCC values ──
         const apcc = data['apccValues'] || [];
@@ -1163,7 +1209,7 @@
   <!-- Info table -->
   <table style="margin-bottom:12px;">
     <colgroup><col style="width:18%"><col style="width:32%"><col style="width:18%"><col style="width:32%"></colgroup>
-    <tr class="ref-row"><td colspan="4">Ref Number: ${v('productNameInput') || 'Product'}_${displayDate}_${v('trialTypeSelect') || 'TrialType'}</td></tr>
+    <tr class="ref-row"><td colspan="4">Ref Number: ${previewFileBase.replace(/^TrialSheet_/, '')}</td></tr>
     <tr><td class="label" style="font-size:11px;">Doc. Num:</td><td colspan="3">${v('docNumInput')}</td></tr>
     <tr>
       <td class="label">Trial Name:</td><td>${v('trialNameInput')}</td>
@@ -1344,6 +1390,26 @@
     function closePreview() { document.getElementById('previewModal').style.display = 'none'; }
     function closePreviewIfOutside(e) { if (e.target.id === 'previewModal') closePreview(); }
 
+    function savePreviewPdf() {
+        if (_previewIndex < 0) return;
+        const f = _currentFilteredFiles[_previewIndex];
+        if (!f) return;
+        const iframe = document.getElementById('pvIframe');
+        if (!iframe?.contentWindow) return;
+        const baseName = buildTrialBaseName(
+            f.productName || f.data?.productNameInput,
+            f.date || '',
+            f.trialType || f.data?.trialTypeSelect,
+            f.requiredBy || getRequiredByFromData(f.data)
+        );
+        try {
+            iframe.contentDocument.title = baseName;
+        } catch (e) { /* srcdoc iframe */ }
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+        showToast('📄 Choose "Save as PDF" in the print dialog');
+    }
+
     function loadCurrentPreview() {
         if (_previewIndex >= 0) loadFileFromRecent(_previewIndex);
     }
@@ -1400,18 +1466,13 @@
 
     async function saveTrialData() {
         const data = collectFormData();
-        const prodName = (document.getElementById('productNameInput').value.trim() || 'Product').replace(/[\\/:\*\?"<>|]/g,'_');
+        const prodName = document.getElementById('productNameInput').value.trim() || 'Product';
         const trialType = document.getElementById('trialTypeSelect').value || 'TrialType';
         const displayDate = getFormattedDate();
-        // Add HHmm timestamp so re-saves always create a new file, never overwrite
-        const now = new Date();
-        const hhmm = String(now.getHours()).padStart(2,'0') + String(now.getMinutes()).padStart(2,'0');
-        const filename = `TrialSheet_${prodName}_${displayDate}_${trialType}_${hhmm}.trial`;
+        const requiredBy = getRequiredByFromForm();
+        const filename = buildTrialFilename(prodName, displayDate, trialType, requiredBy);
 
         // Gather metadata for Recent Files (+ MySQL via db-bridge.js)
-        const reqBySelect = document.getElementById('reqBySelect');
-        const reqByInput = document.getElementById('reqByInput');
-        const requiredBy = reqBySelect.value === 'Text' ? reqByInput.value : reqBySelect.value;
         const info = {
             filename,
             productName: document.getElementById('productNameInput').value.trim(),
@@ -1713,6 +1774,8 @@
         const prodName = document.getElementById('productNameInput').value.trim() || "Product";
         const trialType = document.getElementById('trialTypeSelect').value || "TrialType";
         const displayDate = getFormattedDate();
+        const requiredBy = getRequiredByFromForm();
+        const fileBase = buildTrialBaseName(prodName, displayDate, trialType, requiredBy);
         const mcpUser = getMcpLoggedInUser();
         const creatorName = mcpUser?.name || '—';
         const employeeId = mcpUser?.employee_id || '';
@@ -1720,8 +1783,8 @@
             ? `Prepared by: ${creatorName} - ${employeeId}`
             : `Prepared by: ${creatorName}`;
         document.getElementById('printRefTop').innerHTML =
-            `Ref Number: ${escHtml(prodName)}_${escHtml(displayDate)}_${escHtml(trialType)}<br>${escHtml(creatorLine)}`;
-        document.title = `TrialSheet_${prodName}_${displayDate}_${trialType}`;
+            `Ref Number: ${escHtml(fileBase.replace(/^TrialSheet_/, ''))}<br>${escHtml(creatorLine)}`;
+        document.title = fileBase;
 
         document.querySelectorAll('.apcc-cell').forEach(cell => {
             const ta = cell.querySelector('textarea'), sp = cell.querySelector('.custom-value-span');
